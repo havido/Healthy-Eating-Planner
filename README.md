@@ -1,2 +1,10 @@
 # project_template
 # Make sure to fill out the README with the information specified in the project description!
+
+**Summary**: 
+Our project is a health and wellness application that helps users manage their nutrition and diet. Users can create personal profiles, set health goals through completing activities, browse and save recipes, track their daily food intake, and monitor their progress. The app is designed to be easy to use and supports a variety of dietary needs and preferences, helping users achieve their health and dietary goals.
+
+**In-Depth Descrition**:
+The group will create an application focusing on the domain of Health and wellness, specializing in nutrition and dietary management. This application is related to this domain due to its inclusion of things such as meal planning and nutrition tracking to help users meet their health goals.
+
+Looking more closely at the database, it models a variety of aspects associated with the health and wellness domain identified earlier. The goal is to ensure the persistence and addition of user progress data such as user information and personal profiles, including dietary preferences and health goals. Where the database would also then include recipes with more detailed nutritional information through viewing nutritional information available for easy ingredients, and additionally possess a list of processed foods products as well. Users can log their daily food intake and track important nutritional components such as proteins, fats, and carbs, among others. It also tracks users' eating activities to help them achieve their health goals. Furthermore, by viewing the logs and streak system, users can reflect on their goals and past habits to gain a better understanding of themselves and take control of their diets. There are also real-life applications which can be immediately seen through this type of application: a user wanting to ensure that they properly keep track of their consumption to effectively meet weight goals, a patient using an application to maintain dietary and nutritional restrictions for a condition like diabetes, and many others.
