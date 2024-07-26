@@ -1,6 +1,4 @@
-# project_template
-# Make sure to fill out the README with the information specified in the project description!
-
+## Health & Wellness Tracker
 **Summary**: 
 Our project is a health and wellness application that helps users manage their nutrition and diet. Users can create personal profiles, set health goals through completing activities, browse and save recipes, track their daily food intake, and monitor their progress. The app is designed to be easy to use and supports a variety of dietary needs and preferences, helping users achieve their health and dietary goals.
 
