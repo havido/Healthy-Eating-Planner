@@ -4,9 +4,6 @@
 if [ -d /opt/oracle/instantclient_19_8 ]; then
     export ORACLE_HOME=/opt/oracle/instantclient_19_8
     export LD_LIBRARY_PATH=$ORACLE_HOME
-if [ -d /opt/oracle/instantclient_19_23 ]; then
-    export ORACLE_HOME=/opt/oracle/instantclient_19_23
-    export LD_LIBRARY_PATH=$ORACLE_HOME
 elif [ -d /usr/lib/oracle/19.6/client64/lib ]; then
     export ORACLE_HOME=/usr/lib/oracle/19.6/client64
     # 19.* libraries will be already configured by ldconfig
