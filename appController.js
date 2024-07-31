@@ -3,9 +3,56 @@ const appService = require('./appService');
 
 const router = express.Router();
 
+const LOGGIN = true
+
+function log1(s) {
+    if (LOGGIN) {
+        console.log(s)
+    }
+}
+
 // ----------------------------------------------------------
 // API endpoints
 // Modify or extend these routes based on your project's needs.
+
+router.post("/login", async (req, res) => {
+    // get attrsAndTargetValues from req
+    if (!req.body) {
+        res.status(500).json({ success: false });
+    }
+
+    attrs = Object.keys(req.body) // gives the attributes of the DB table
+    values = Object.values(req.body) // gives the values of those attributes
+    // we only excpect two attr and two valus
+    if (attrs.length > 2 || values.length > 2) {
+        res.status(500).json({ success: false });
+    }
+
+    log1(typeof attrs)
+    log1(typeof values)
+    log1("++++++++++++++")
+    attrs_arr = []
+    attrs.foreach(attr => attrs_arr.push(attr))
+    attrs_str = ", ".join(attrs_arr)
+
+    values_arr = []
+    values.foreach(value => values_arr.push(value))
+    values_str = ", ".join(values_arr)
+
+    log1(attrs_str)
+    log1(values_str)
+
+    //const initiateResult = await appService.initiateTable('USERS', attrsAndTargetValues);
+    const initiateResult = await appService.readRowsWithValuesFromTable('USER', attrs_str, values_str);
+    if (initiateResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+
+
 router.get('/check-db-connection', async (req, res) => {
     const isConnect = await appService.testOracleConnection();
     if (isConnect) {
@@ -16,12 +63,15 @@ router.get('/check-db-connection', async (req, res) => {
 });
 
 router.get('/demotable', async (req, res) => {
-    const tableContent = await appService.fetchDemotableFromDb();
-    res.json({data: tableContent});
+
+    // TODO check that the name of the table not null
+    const tableContent = await appService.fetchTableFromDb('DEMOTABLE');
+    res.json({ data: tableContent });
 });
 
 router.post("/initiate-demotable", async (req, res) => {
-    const initiateResult = await appService.initiateDemotable();
+    // TODO check that the name of the table not null
+    const initiateResult = await appService.initiateTable('DEMOTABLE');
     if (initiateResult) {
         res.json({ success: true });
     } else {
@@ -30,8 +80,9 @@ router.post("/initiate-demotable", async (req, res) => {
 });
 
 router.post("/insert-demotable", async (req, res) => {
+    // TODO check that the name of the table not null
     const { id, name } = req.body;
-    const insertResult = await appService.insertDemotable(id, name);
+    const insertResult = await appService.insertIntoTable('DEMOTABLE', id, name);
     if (insertResult) {
         res.json({ success: true });
     } else {
@@ -40,8 +91,9 @@ router.post("/insert-demotable", async (req, res) => {
 });
 
 router.post("/update-name-demotable", async (req, res) => {
+    // TODO check that the name of the table not null
     const { oldName, newName } = req.body;
-    const updateResult = await appService.updateNameDemotable(oldName, newName);
+    const updateResult = await appService.updateNameTable('DEMOTABLE', oldName, newName);
     if (updateResult) {
         res.json({ success: true });
     } else {
@@ -50,15 +102,15 @@ router.post("/update-name-demotable", async (req, res) => {
 });
 
 router.get('/count-demotable', async (req, res) => {
-    const tableCount = await appService.countDemotable();
+    const tableCount = await appService.countTable('DEMOTABLE');
     if (tableCount >= 0) {
-        res.json({ 
-            success: true,  
+        res.json({
+            success: true,
             count: tableCount
         });
     } else {
-        res.status(500).json({ 
-            success: false, 
+        res.status(500).json({
+            success: false,
             count: tableCount
         });
     }
