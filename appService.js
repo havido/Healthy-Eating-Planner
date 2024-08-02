@@ -1,5 +1,6 @@
 const oracledb = require('oracledb');
 const loadEnvFile = require('./utils/envUtil');
+const { query } = require('express');
 
 const envVariables = loadEnvFile('./.env');
 
@@ -13,6 +14,31 @@ const dbConfig = {
     poolIncrement: 1,
     poolTimeout: 60
 };
+
+
+function generateQuery(tableName, selected_attr, condition_dict) {
+
+
+    selected_attr = selected_attr.join(", ").toUpperCase()
+    var res = "SELECT " + selected_attr + " FROM " + tableName + " WHERE "
+
+    const keys = Object.keys(condition_dict);
+    const vals = Object.values(condition_dict);
+    const length = Object.keys(condition_dict).length;
+
+    for (let i = 0; i < length; i++) {
+        const key = keys[i].toUpperCase();
+        res += key + "=\'" + vals[i] + "\'";
+        if (i != length - 1) {
+            res += " AND ";
+        }
+    }
+
+
+    return res
+}
+
+
 
 // initialize connection pool
 async function initializeConnectionPool() {
@@ -121,15 +147,16 @@ async function insertIntoTable(tableName, id, name) {
     });
 }
 
-async function readRowsWithValuesFromTable(tableName, attrs_str, values_str) {
+async function readRowsWithValuesFromTable(tableName, selected_attr, condition_dict) {
     return await withOracleDB(async (connection) => {
 
-        const result = await connection.execute(
-            `SELECT ` + attrs_str + ` FROM `+tableName + ` WHERE ` + values_str,
-            { autoCommit: true }
-        );
 
-        return result.rowsAffected && result.rowsAffected > 0;
+        query_ = generateQuery(tableName, selected_attr, condition_dict)
+        const result = await connection.execute(
+            query_
+        );
+        
+        return result.rows.length > 0 ? true : false;  
     }).catch(() => {
         return false;
     });
