@@ -16,34 +16,23 @@ function log1(s) {
 // Modify or extend these routes based on your project's needs.
 
 router.post("/login", async (req, res) => {
-    // get attrsAndTargetValues from req
     if (!req.body) {
         res.status(500).json({ success: false });
     }
 
     attrs = Object.keys(req.body) // gives the attributes of the DB table
     values = Object.values(req.body) // gives the values of those attributes
-    // we only excpect two attr and two valus
-    if (attrs.length > 2 || values.length > 2) {
+
+    // we only expect the username and NO password (for now)
+    if (attrs.length > 1 || values.length > 1) {
         res.status(500).json({ success: false });
     }
 
-    log1(typeof attrs)
-    log1(typeof values)
-    log1("++++++++++++++")
-    attrs_arr = []
-    attrs.foreach(attr => attrs_arr.push(attr))
-    attrs_str = ", ".join(attrs_arr)
-
-    values_arr = []
-    values.foreach(value => values_arr.push(value))
-    values_str = ", ".join(values_arr)
-
-    log1(attrs_str)
-    log1(values_str)
+    selected_attr = attrs
+    condition_dict = req.body
 
     //const initiateResult = await appService.initiateTable('USERS', attrsAndTargetValues);
-    const initiateResult = await appService.readRowsWithValuesFromTable('USER', attrs_str, values_str);
+    const initiateResult = await appService.readRowsWithValuesFromTable('USER2', selected_attr, condition_dict);
     if (initiateResult) {
         res.json({ success: true });
     } else {
