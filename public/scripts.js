@@ -28,12 +28,12 @@ async function checkDbConnection() {
     statusElem.style.display = 'inline';
 
     response.text()
-    .then((text) => {
-        statusElem.textContent = text;
-    })
-    .catch((error) => {
-        statusElem.textContent = 'connection timed out';  // Adjust error handling if required.
-    });
+        .then((text) => {
+            statusElem.textContent = text;
+        })
+        .catch((error) => {
+            statusElem.textContent = 'connection timed out';  // Adjust error handling if required.
+        });
 }
 
 // Fetches data from the demotable and displays it.
@@ -155,10 +155,41 @@ async function countDemotable() {
 }
 
 
+// Logs in the user by sending a request to the backend with the username
+async function login() {
+    const username = document.getElementById('username').value;
+
+    const response = await fetch('/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            USERID: username
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('loginResultMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "Login successful!";
+
+        // TODO: if user is admin display all users table and meals and stuff
+        // if user is not admin display only his dashboard page
+        // Redirect to dashboard.html after successful login
+        window.location.href = 'dashboard.html';
+    } else {
+        messageElement.textContent = "Login failed!";
+    }
+}
+
+
+
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
 // Add or remove event listeners based on the desired functionalities.
-window.onload = function() {
+window.onload = function () {
     checkDbConnection();
     fetchTableData();
     document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
