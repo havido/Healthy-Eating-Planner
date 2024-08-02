@@ -19,7 +19,7 @@ const dbConfig = {
 function generateQuery(tableName, selected_attr, condition_dict) {
 
 
-    selected_attr = selected_attr.join(", ")
+    selected_attr = selected_attr.join(", ").toUpperCase()
     var res = "SELECT " + selected_attr + " FROM " + tableName + " WHERE "
 
     const keys = Object.keys(condition_dict);
@@ -27,8 +27,8 @@ function generateQuery(tableName, selected_attr, condition_dict) {
     const length = Object.keys(condition_dict).length;
 
     for (let i = 0; i < length; i++) {
-        const key = keys[i];
-        res += key + "=" + vals[i];
+        const key = keys[i].toUpperCase();
+        res += key + "=\'" + vals[i] + "\'";
         if (i != length - 1) {
             res += " AND ";
         }
@@ -155,8 +155,8 @@ async function readRowsWithValuesFromTable(tableName, selected_attr, condition_d
         const result = await connection.execute(
             query_
         );
-
-        return result.rowsAffected && result.rowsAffected > 0;
+        
+        return result.rows.length > 0 ? true : false;  
     }).catch(() => {
         return false;
     });
