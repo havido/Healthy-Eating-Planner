@@ -157,7 +157,10 @@ async function countDemotable() {
 
 // Logs in the user by sending a request to the backend with the username
 async function login() {
-    const username = document.getElementById('username').value;
+    const messageElement = document.getElementById('loginResultMsg');
+    messageElement.textContent = "";
+
+    const userID = document.getElementById('userID').value;
 
     const response = await fetch('/login', {
         method: 'POST',
@@ -165,20 +168,24 @@ async function login() {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            USERID: username
+            USERID: userID
         })
     });
 
     const responseData = await response.json();
-    const messageElement = document.getElementById('loginResultMsg');
 
     if (responseData.success) {
+        localStorage.setItem('LocalStorage-userID', userID);
         messageElement.textContent = "Login successful!";
 
         // TODO: if user is admin display all users table and meals and stuff
         // if user is not admin display only his dashboard page
         // Redirect to dashboard.html after successful login
+        if (responseData.isAdmin) {
+            window.location.href = 'dashboard_admin.html';
+        } else {
         window.location.href = 'dashboard.html';
+        }
     } else {
         messageElement.textContent = "Login failed!";
     }
@@ -191,15 +198,15 @@ async function login() {
 // Add or remove event listeners based on the desired functionalities.
 window.onload = function () {
     checkDbConnection();
-    fetchTableData();
-    document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
-    document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
-    document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
-    document.getElementById("countDemotable").addEventListener("click", countDemotable);
+    //fetchTableData();
+    //document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
+    //document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
+    //document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
+    //document.getElementById("countDemotable").addEventListener("click", countDemotable);
 };
 
 // General function to refresh the displayed table data. 
 // You can invoke this after any table-modifying operation to keep consistency.
-function fetchTableData() {
-    fetchAndDisplayUsers();
-}
+// function fetchTableData() {
+//     fetchAndDisplayUsers();
+// }

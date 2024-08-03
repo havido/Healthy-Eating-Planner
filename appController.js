@@ -23,7 +23,7 @@ router.post("/login", async (req, res) => {
     attrs = Object.keys(req.body) // gives the attributes of the DB table
     values = Object.values(req.body) // gives the values of those attributes
 
-    // we only expect the username and NO password (for now)
+    // we only expect the userID and NO password (for now)
     if (attrs.length > 1 || values.length > 1) {
         res.status(500).json({ success: false });
     }
@@ -31,16 +31,39 @@ router.post("/login", async (req, res) => {
     selected_attr = attrs
     condition_dict = req.body
 
-    //const initiateResult = await appService.initiateTable('USERS', attrsAndTargetValues);
-    const initiateResult = await appService.readRowsWithValuesFromTable('USER2', selected_attr, condition_dict);
-    if (initiateResult) {
-        res.json({ success: true });
-    } else {
-        res.status(500).json({ success: false });
+    // try to find the user in the USER2 table first
+    const isUserFound = await appService.readRowsWithValuesFromTable('REGULARUSER', selected_attr, condition_dict);
+    if (isUserFound.length > 0) {
+        res.json({ success: true, isAdmin: false})
+        return
     }
+
+    // if the user is not found in the USER2 table, try to find it in the ADMINAPP table
+    const isAdminFound = await appService.readRowsWithValuesFromTable('ADMINAPP', selected_attr, condition_dict);
+    if (isAdminFound) {
+        res.json({ success: true, isAdmin: true})
+        return
+    }
+
+    // if the user is not found in the USER2 table or the ADMINAPP table, return false
+    res.status(500).json({ success: false });
+
 });
 
+router.post('/user-info', async (req, res) => {
 
+    if (!req.body) {
+        res.status(500).json({ success: false });
+    }
+    // fail if body does not have userID key and value
+    if (!req.body.hasOwnProperty('USERID') || !req.body.USERID || Object.keys(req.body).length > 1) {
+        res.status(500).json({ success: false });
+    }
+
+    const result = await appService.readRowsWithValuesFromTable('USER2', ['*'], condition_dict);
+    res.json({ success: true, data: result })
+    return
+});
 
 router.get('/check-db-connection', async (req, res) => {
     const isConnect = await appService.testOracleConnection();
