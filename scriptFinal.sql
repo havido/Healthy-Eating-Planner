@@ -147,6 +147,7 @@ CREATE TABLE ProcessedFood
     (procName VARCHAR(50),
     brand VARCHAR(50),
     nutrID CHAR(8) NOT NULL UNIQUE,
+    userDescript VARCHAR(999), 
     pfUnit VARCHAR(20) NOT NULL,
     PRIMARY KEY (procName, brand));
 
@@ -461,22 +462,6 @@ VALUES ('U0000040', 'M0000001', to_timestamp('2024-07-26 11:30:00', 'YYYY-MM-DD 
 INSERT INTO UserMealLogging (userID, mealID, timestamped)
 VALUES ('U0000050', 'M0000005', to_timestamp('2024-07-30 20:00:00', 'YYYY-MM-DD HH24:MI:SS')); 
 
-/* Insert statements with ============= potential logID ====================:
-INSERT INTO UserMealLogging (logID, userID, mealID, timestamped)
-VALUES ('L00000001', 'U0000010', 'M0000001', to_timestamp('2024-07-21 08:00:00', 'YYYY-MM-DD HH24:MI:SS'));
-
-INSERT INTO UserMealLogging (logID, userID, mealID, timestamped)
-VALUES ('L0000002', 'U0000020', 'M0000002', to_timestamp('2024-07-23 20:30:00', 'YYYY-MM-DD HH24:MI:SS'));
-
-INSERT INTO UserMealLogging (logID, userID, mealID, timestamped)
-VALUES ('L0000003', 'U0000030', 'M0000004', to_timestamp('2024-07-25 16:00:00', 'YYYY-MM-DD HH24:MI:SS'));
-
-INSERT INTO UserMealLogging (logID, userID, mealID, timestamped)
-VALUES ('L0000004', 'U0000040', 'M0000001', to_timestamp('2024-07-26 11:30:00', 'YYYY-MM-DD HH24:MI:SS'));
-
-INSERT INTO UserMealLogging (logID, userID, mealID, timestamped)
-VALUES ('L0000005', 'U0000050', 'M0000005', to_timestamp('2024-07-30 20:00:00', 'YYYY-MM-DD HH24:MI:SS'));  */
-
 
 /* ========================== Ingredient ========================== */
 INSERT INTO Ingredient (ingName, nutrID, ingUnit, category)
@@ -556,20 +541,20 @@ VALUES ('N0000010', NULL, 'Butter Chicken', 'President''s Choice', 20.00, 18.00,
 
 
 /* ========================== Processed Food ========================== */
-INSERT INTO ProcessedFood (procName, brand, nutrID, pfUnit)
-VALUES ('Strawberry Probiotic Yogurt', 'Activia', 'N0000006', 'pack');
+INSERT INTO ProcessedFood (procName, brand, nutrID, userDescript, pfUnit)
+VALUES ('Strawberry Probiotic Yogurt', 'Activia', 'N0000006', 'Might be my favorite yogurt.', 'pack');
 
-INSERT INTO ProcessedFood (procName, brand, nutrID, pfUnit)
-VALUES ('Chicken Pot Pie', 'Marie Callender''s', 'N0000007', 'box');
+INSERT INTO ProcessedFood (procName, brand, nutrID, userDescript, pfUnit)
+VALUES ('Chicken Pot Pie', 'Marie Callender''s', 'N0000007', 'I liked to eat it sometimes.', 'box');
 
-INSERT INTO ProcessedFood (procName, brand, nutrID, pfUnit)
-VALUES ('Medium Iced Capp', 'Tim Hortons', 'N0000008', 'cup');
+INSERT INTO ProcessedFood (procName, brand, nutrID, userDescript, pfUnit)
+VALUES ('Medium Iced Capp', 'Tim Hortons', 'N0000008', 'Enjoable in the morning before class.', 'cup');
 
-INSERT INTO ProcessedFood (procName, brand, nutrID, pfUnit)
-VALUES ('Small Iced Capp', 'Tim Hortons', 'N0000009', 'cup');
+INSERT INTO ProcessedFood (procName, brand, nutrID, userDescript, pfUnit)
+VALUES ('Small Iced Capp', 'Tim Hortons', 'N0000009', 'Usually get when short on money.', 'cup');
 
-INSERT INTO ProcessedFood (procName, brand, nutrID, pfUnit)
-VALUES ('Butter Chicken', 'President''s Choice', 'N0000010', 'box');
+INSERT INTO ProcessedFood (procName, brand, nutrID, userDescript, pfUnit)
+VALUES ('Butter Chicken', 'President''s Choice', 'N0000010', 'Love eating it for dinner.', 'box');
 
 
 /* ========================== Proc Meal ========================== */
