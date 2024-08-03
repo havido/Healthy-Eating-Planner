@@ -15,9 +15,7 @@ const dbConfig = {
     poolTimeout: 60
 };
 
-
 function generateQuery(tableName, selected_attr, condition_dict) {
-
 
     selected_attr = selected_attr.join(", ").toUpperCase()
     var res = "SELECT " + selected_attr + " FROM " + tableName + " WHERE "
@@ -34,11 +32,8 @@ function generateQuery(tableName, selected_attr, condition_dict) {
         }
     }
 
-
     return res
 }
-
-
 
 // initialize connection pool
 async function initializeConnectionPool() {
@@ -68,7 +63,6 @@ process
     .once('SIGTERM', closePoolAndExit)
     .once('SIGINT', closePoolAndExit);
 
-
 // ----------------------------------------------------------
 // Wrapper to manage OracleDB actions, simplifying connection handling.
 async function withOracleDB(action) {
@@ -89,7 +83,6 @@ async function withOracleDB(action) {
         }
     }
 }
-
 
 // ----------------------------------------------------------
 // Core functions for database operations
@@ -150,19 +143,16 @@ async function insertIntoTable(tableName, id, name) {
 async function readRowsWithValuesFromTable(tableName, selected_attr, condition_dict) {
     return await withOracleDB(async (connection) => {
 
-
         query_ = generateQuery(tableName, selected_attr, condition_dict)
         const result = await connection.execute(
             query_
         );
-        
-        return result.rows.length > 0 ? true : false;  
+
+        return result.rows;
     }).catch(() => {
         return false;
     });
 }
-
-
 
 // Q: not sure if name=: can be anything or this is a syntax of SQl that we will not change
 // and doest not need to be a variable
