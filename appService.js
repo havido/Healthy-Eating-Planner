@@ -35,6 +35,46 @@ function generateQuery(tableName, selected_attr, condition_dict) {
     return res
 }
 
+// ======================================= Update Food =================================================
+// ======================================= Update Food =================================================
+
+
+async function updateDescription(tableName, productName, brandName, newDescription) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            ' UPDATE ' + tableName +  ' SET userDescript=:newDescription where procName=:productName AND brand=:brandName',
+            [productName, brandName, newDescription],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+async function updateUnit(tableName, productName, brandName, newUnit) {
+    return await withOracleDB(async (connection) => {
+        try {
+            const result = await connection.execute(
+                 ' UPDATE ' + tableName +  ' SET pfUnit = :newUnit WHERE procName = :productName AND brand = :brandName',
+                [productName, brandName, newUnit],
+                { autoCommit: true }
+            );
+
+            return result.rowsAffected && result.rowsAffected > 0;
+        } catch (error) {
+            return false;
+        }
+    });
+}
+
+
+// ======================================= Update Food =================================================
+// ======================================= Update Food =================================================
+
+
+
 // initialize connection pool
 async function initializeConnectionPool() {
     try {
@@ -186,5 +226,9 @@ module.exports = {
     insertIntoTable,
     readRowsWithValuesFromTable,
     updateNameTable,
-    countTable
+    countTable,
+
+    // Added them here:
+    updateDescription,
+    updateUnit
 };

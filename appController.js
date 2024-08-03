@@ -77,6 +77,27 @@ router.get('/get-processed-foods', async (req, res) => {
     }
 });
 
+router.post("/update-description", async (req, res) => {
+    const { productName, brandName, description } = req.body;
+    const updateResult = await appService.updateDescription('ProcessedFood', productName, brandName, description);
+    if (updateResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+router.post("/update-unit", async (req, res) => {
+    const { productName, brand, unit } = req.body;
+    const updateResult = await appService.updateUnit('ProcessedFood', productName, brand, unit);
+    if (updateResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+
 // ======================================= Update Food =================================================
 
 
