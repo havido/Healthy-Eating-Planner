@@ -1,5 +1,6 @@
 const oracledb = require('oracledb');
 const loadEnvFile = require('./utils/envUtil');
+const { query } = require('express');
 
 const envVariables = loadEnvFile('./.env');
 
@@ -13,6 +14,31 @@ const dbConfig = {
     poolIncrement: 1,
     poolTimeout: 60
 };
+
+
+function generateQuery(tableName, selected_attr, condition_dict) {
+
+
+    selected_attr = selected_attr.join(", ").toUpperCase()
+    var res = "SELECT " + selected_attr + " FROM " + tableName + " WHERE "
+
+    const keys = Object.keys(condition_dict);
+    const vals = Object.values(condition_dict);
+    const length = Object.keys(condition_dict).length;
+
+    for (let i = 0; i < length; i++) {
+        const key = keys[i].toUpperCase();
+        res += key + "=\'" + vals[i] + "\'";
+        if (i != length - 1) {
+            res += " AND ";
+        }
+    }
+
+
+    return res
+}
+
+
 
 // initialize connection pool
 async function initializeConnectionPool() {
@@ -76,25 +102,26 @@ async function testOracleConnection() {
     });
 }
 
-async function fetchDemotableFromDb() {
+async function fetchTableFromDb(tableName) {
     return await withOracleDB(async (connection) => {
-        const result = await connection.execute('SELECT * FROM DEMOTABLE');
+        const result = await connection.execute('SELECT * FROM ' + tableName.toUpperCase());
         return result.rows;
     }).catch(() => {
         return [];
     });
 }
 
-async function initiateDemotable() {
+async function initiateTable(tableName) {
     return await withOracleDB(async (connection) => {
         try {
             await connection.execute(`DROP TABLE DEMOTABLE`);
-        } catch(err) {
+        } catch (err) {
             console.log('Table might not exist, proceeding to create...');
         }
-
+        // TODO will have to read the attributes from the request
+        // but this feature might not be needed in the first palce
         const result = await connection.execute(`
-            CREATE TABLE DEMOTABLE (
+            CREATE TABLE `+ tableName + ` (
                 id NUMBER PRIMARY KEY,
                 name VARCHAR2(20)
             )
@@ -105,10 +132,11 @@ async function initiateDemotable() {
     });
 }
 
-async function insertDemotable(id, name) {
+async function insertIntoTable(tableName, id, name) {
     return await withOracleDB(async (connection) => {
+        // TODO will have to read the attributes from the request
         const result = await connection.execute(
-            `INSERT INTO DEMOTABLE (id, name) VALUES (:id, :name)`,
+            `INSERT INTO ` + tableName + ` (id, name) VALUES (:id, :name)`,
             [id, name],
             { autoCommit: true }
         );
@@ -119,10 +147,29 @@ async function insertDemotable(id, name) {
     });
 }
 
-async function updateNameDemotable(oldName, newName) {
+async function readRowsWithValuesFromTable(tableName, selected_attr, condition_dict) {
+    return await withOracleDB(async (connection) => {
+
+
+        query_ = generateQuery(tableName, selected_attr, condition_dict)
+        const result = await connection.execute(
+            query_
+        );
+        
+        return result.rows.length > 0 ? true : false;  
+    }).catch(() => {
+        return false;
+    });
+}
+
+
+
+// Q: not sure if name=: can be anything or this is a syntax of SQl that we will not change
+// and doest not need to be a variable
+async function updateNameTable(tableName, oldName, newName) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            `UPDATE DEMOTABLE SET name=:newName where name=:oldName`,
+            `UPDATE ` + tableName + ` SET name=:newName where name=:oldName`,
             [newName, oldName],
             { autoCommit: true }
         );
@@ -133,9 +180,9 @@ async function updateNameDemotable(oldName, newName) {
     });
 }
 
-async function countDemotable() {
+async function countTable(tableName) {
     return await withOracleDB(async (connection) => {
-        const result = await connection.execute('SELECT Count(*) FROM DEMOTABLE');
+        const result = await connection.execute('SELECT Count(*) FROM ' + tableName);
         return result.rows[0][0];
     }).catch(() => {
         return -1;
@@ -144,9 +191,10 @@ async function countDemotable() {
 
 module.exports = {
     testOracleConnection,
-    fetchDemotableFromDb,
-    initiateDemotable, 
-    insertDemotable, 
-    updateNameDemotable, 
-    countDemotable
+    fetchTableFromDb,
+    initiateTable,
+    insertIntoTable,
+    readRowsWithValuesFromTable,
+    updateNameTable,
+    countTable
 };
