@@ -13,16 +13,52 @@
 <body>
     <!-- Add a link to the login page -->
     <h2><a href="login.html">Login</a></h2>
-    <!-- ===================================================================================== -->
-    <!-- Display the current status of the database connection. 
-         !!HERE TO HELP U DEBUGGING, NOT REQUIRED IN YOUR OWN PROJECT!!
-         -->
-    <h1>Database Connection Status: 
-        <!-- An in-line placeholder to display connection status. -->
-        <span id="dbStatus"> </span>
-        <!-- A loading GIF, will be hided once get the status. -->
-        <img id="loadingGif" class="loading-gif" src="loading_100px.gif" alt="Loading...">
-    </h1>
+    
+    <!-- Atta  ==========================================================================================================-->
+    <br><hr><br> <!-- ========================================================================= -->
+
+    <h2>Update Processed Food</h2>
+
+    <style>
+        form {
+            margin-bottom: 50px;
+        }
+    </style>
+
+    <table id="processedFoodTable" border="1">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Brand </th>
+                <th>Nutriton ID</th>
+                <th>User Description</th>
+                <th>Units</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Rows will be populated by JavaScript -->
+        </tbody>
+    </table>
+
+    <div id="updateSelectProcFoodMsg"></div>
+
+    <form id="userDescriptUpdate">
+        <label for="userDescript">New Description:</label>
+        <input type="text" id="userDescript" name="userDescript" required>
+        <button type="submit">Update Description</button>
+    </form>
+
+    <div id="updateDescriptionResultMsg"></div>
+
+    <form id="updateUnits">
+        <label for="pfUnit">New Unit:</label>
+        <input type="text" id="pfUnit" name="pfUnit">
+        <button type="submit">Update Unit</button>
+    </form>
+
+    <div id="updateUnitResultMsg"></div>
+
+    <br><hr><br> <!-- ========================================================================= -->
 
     <br><hr><br> <!-- ========================================================================= -->
 
