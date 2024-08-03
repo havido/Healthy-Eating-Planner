@@ -65,6 +65,21 @@ router.post('/user-info', async (req, res) => {
     return
 });
 
+// ======================================= Update Food =================================================
+
+router.get('/get-processed-foods', async (req, res) => {
+    try {
+        const tableContent = await appService.fetchTableFromDb('ProcessedFood');
+        res.json({ data: tableContent });
+    } catch (error) {
+        console.error('Error fetching processed foods:', error);
+        res.status(500).json({ success: false });
+    }
+});
+
+// ======================================= Update Food =================================================
+
+
 router.get('/check-db-connection', async (req, res) => {
     const isConnect = await appService.testOracleConnection();
     if (isConnect) {

@@ -191,6 +191,90 @@ async function login() {
     }
 }
 
+// ======================= Update Processed Food Function =================================
+
+// Deals with the table 
+async function fetchAndDisplayProcessedFoods() {
+    const tableElement = document.getElementById('processedFoodTable');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-processed-foods', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const processedFoods = responseData.data;
+
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    processedFoods.forEach(food => {
+        const row = tableBody.insertRow();
+        food.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
+
+// Updates description
+async function updateDescription(event) {
+    event.preventDefault();
+
+    const foodId = document.getElementById('foodId').value;
+    const userDescript = document.getElementById('userDescript').value;
+
+    const response = await fetch('/update-description', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: foodId,
+            description: userDescript
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('updateDescriptionResultMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "Description updated successfully!";
+        fetchTableData(); 
+    } else {
+        messageElement.textContent = "Error updating description!";
+    }
+}
+
+// Updates Units
+async function updateUnit(event) {
+    event.preventDefault();
+
+    const foodId = document.getElementById('foodId').value;
+    const pfUnit = document.getElementById('pfUnit').value;
+
+    const response = await fetch('/update-unit', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: foodId,
+            unit: pfUnit
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('updateUnitResultMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "Unit updated successfully!";
+        fetchTableData(); 
+    } else {
+        messageElement.textContent = "Error updating unit!";
+    }
+}
 
 
 // ---------------------------------------------------------------
@@ -198,15 +282,20 @@ async function login() {
 // Add or remove event listeners based on the desired functionalities.
 window.onload = function () {
     checkDbConnection();
-    //fetchTableData();
-    //document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
-    //document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
-    //document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
-    //document.getElementById("countDemotable").addEventListener("click", countDemotable);
+    fetchTableData();
+    document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
+    document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
+    document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
+    document.getElementById("countDemotable").addEventListener("click", countDemotable);
+
+    // New Event Listeners:
+    document.getElementById('userDescriptUpdate').addEventListener('submit', updateDescription);
+    document.getElementById('updateUnits').addEventListener('submit', updateUnit);
 };
 
 // General function to refresh the displayed table data. 
 // You can invoke this after any table-modifying operation to keep consistency.
-// function fetchTableData() {
-//     fetchAndDisplayUsers();
-// }
+function fetchTableData() {
+    fetchAndDisplayUsers();
+    fetchAndDisplayProcessedFoods();
+}
