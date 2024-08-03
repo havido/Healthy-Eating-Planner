@@ -19,12 +19,6 @@
 
     <h2>Update Processed Food</h2>
 
-    <style>
-        form {
-            margin-bottom: 50px;
-        }
-    </style>
-
     <table id="processedFoodTable" border="1">
         <thead>
             <tr>
@@ -42,21 +36,39 @@
 
     <div id="updateSelectProcFoodMsg"></div>
 
-    <form id="userDescriptUpdate">
-        <label for="userDescript">New Description:</label>
-        <input type="text" id="userDescript" name="userDescript" required>
-        <button type="submit">Update Description</button>
+
+    <!-- <h2>Update Name in DemoTable</h2>
+    <p>The values are case sensitive and if you enter in the wrong case, the update statement will not do anything.</p>
+    <form id="updataNameDemotable">
+        Old Name: <input type="text" id="updateOldName" placeholder="Enter Old Name" required> <br><br>
+        New Name: <input type="text" id="updateNewName" placeholder="Enter New Name" maxlength="20"> <br><br>
+
+        <button type="submit"> update </button> <br>
     </form>
+     A placeholder to display messages related to the update operation. 
+    <div id="updateNameResultMsg"></div> -->
 
-    <div id="updateDescriptionResultMsg"></div>
-
+    <br><br>
     <form id="updateUnits">
+        Product Name: <input type="text" id="productNameProcFood" placeholder="Enter exact product name" required> <br><br>
+        Brand: <input type="text" id="brandNameProcFood" placeholder="Enter exact brand name" required> <br><br>
         <label for="pfUnit">New Unit:</label>
         <input type="text" id="pfUnit" name="pfUnit">
         <button type="submit">Update Unit</button>
     </form>
 
     <div id="updateUnitResultMsg"></div>
+
+    <br><br>
+    <form id="userDescriptUpdate">
+        Product Name: <input type="text" id="productNameProcFood" placeholder="Enter exact product name" required> <br><br>
+        Brand: <input type="text" id="brandNameProcFood" placeholder="Enter exact brand name" required> <br><br>
+        <label for="userDescript">New Description:</label>
+        <input type="text" id="userDescript" name="userDescript" required>
+        <button type="submit">Update Description</button>
+    </form>
+
+    <div id="updateDescriptionResultMsg"></div>
 
     <br><hr><br> <!-- ========================================================================= -->
 
