@@ -218,21 +218,23 @@ async function fetchAndDisplayProcessedFoods() {
     });
 }
 
-// Updates description
+// Update Description
 async function updateDescription(event) {
     event.preventDefault();
 
-    const foodId = document.getElementById('foodId').value;
-    const userDescript = document.getElementById('userDescript').value;
+    const productName = document.getElementById('productNameProcFood').value;
+    const brand = document.getElementById('brandNameProcFood').value;
+    const description = document.getElementById('userDescript').value;
 
     const response = await fetch('/update-description', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-            id: foodId,
-            description: userDescript
+        body: JSON.stringify({ 
+            productName: productName,
+            brand: brand,
+            description: description
         })
     });
 
@@ -241,18 +243,20 @@ async function updateDescription(event) {
 
     if (responseData.success) {
         messageElement.textContent = "Description updated successfully!";
-        fetchTableData(); 
+        fetchTableData();
     } else {
         messageElement.textContent = "Error updating description!";
     }
 }
 
-// Updates Units
+
+// Update the units
 async function updateUnit(event) {
     event.preventDefault();
 
-    const foodId = document.getElementById('foodId').value;
-    const pfUnit = document.getElementById('pfUnit').value;
+    const productName = document.getElementById('productNameProcFood').value;
+    const brand = document.getElementById('brandNameProcFood').value;
+    const unit = document.getElementById('pfUnit').value;
 
     const response = await fetch('/update-unit', {
         method: 'POST',
@@ -260,8 +264,9 @@ async function updateUnit(event) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            id: foodId,
-            unit: pfUnit
+            productName: productName,
+            brand: brand,
+            unit: unit
         })
     });
 
@@ -270,7 +275,7 @@ async function updateUnit(event) {
 
     if (responseData.success) {
         messageElement.textContent = "Unit updated successfully!";
-        fetchTableData(); 
+        fetchTableData();
     } else {
         messageElement.textContent = "Error updating unit!";
     }
