@@ -33,14 +33,6 @@ CREATE TABLE Recipe
     PRIMARY KEY (recipeID));
 
 
-CREATE TABLE User1
-    (height DECIMAL(3,2),
-    weights DECIMAL(5,2),
-    BMI DECIMAL(4,2),
-    PRIMARY KEY (height, weights)
-    FOREIGN KEY (height) references User2(height) ON DELETE CASCADE,
-	FOREIGN KEY (weights) references Recipe(weights) ON DELETE CASCADE);
-
 CREATE TABLE User2
     (userID CHAR(8),
     username VARCHAR(99) NOT NULL,
@@ -49,6 +41,14 @@ CREATE TABLE User2
     height DECIMAL(3,2),
     weights DECIMAL(5,2),
     PRIMARY KEY (userID));
+
+CREATE TABLE User1
+    (height DECIMAL(3,2),
+    weights DECIMAL(5,2),
+    BMI DECIMAL(4,2),
+    PRIMARY KEY (height, weights),
+    FOREIGN KEY (height) references User2(height) ON DELETE CASCADE,
+	FOREIGN KEY (weights) references Recipe(weights) ON DELETE CASCADE);
 
 CREATE TABLE NutritionalValue1
     (protein DECIMAL(7,2),
