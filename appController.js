@@ -66,6 +66,9 @@ router.post('/user-info', async (req, res) => {
 });
 
 // ======================================= Update Food =================================================
+// ======================================= Update Food =================================================
+// ======================================= Update Food =================================================
+// ======================================= Update Food =================================================
 
 router.get('/get-processed-foods', async (req, res) => {
     try {
@@ -78,8 +81,8 @@ router.get('/get-processed-foods', async (req, res) => {
 });
 
 router.post("/update-description", async (req, res) => {
-    const { productName, brandName, description } = req.body;
-    const updateResult = await appService.updateDescription('ProcessedFood', productName, brandName, description);
+    const { productName, brand, description } = req.body;
+    const updateResult = await appService.updateDescription('ProcessedFood', productName, brand, description);
     if (updateResult) {
         res.json({ success: true });
     } else {
@@ -92,14 +95,20 @@ router.post("/update-unit", async (req, res) => {
     const updateResult = await appService.updateUnit('ProcessedFood', productName, brand, unit);
     if (updateResult) {
         res.json({ success: true });
-    } else {
-        res.status(500).json({ success: false });
+     } else {
+         res.status(500).json({ success: false });
     }
 });
 
-
+// ======================================= Update Food =================================================
+// ======================================= Update Food =================================================
+// ======================================= Update Food =================================================
 // ======================================= Update Food =================================================
 
+
+
+
+// Insert operation above.
 
 router.get('/check-db-connection', async (req, res) => {
     const isConnect = await appService.testOracleConnection();
