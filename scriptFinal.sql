@@ -32,7 +32,6 @@ CREATE TABLE Recipe
     recipeCalories DECIMAL(7,2) not null, 
     PRIMARY KEY (recipeID));
 
-
 CREATE TABLE User1
     (height DECIMAL(3,2),
     weights DECIMAL(5,2),
