@@ -15,6 +15,10 @@
     <h2><a href="login.html">Login</a></h2>
     
     <!-- Atta  ==========================================================================================================-->
+    <!-- =================================== Processed Food =======================================================================-->
+    <!-- =================================== Processed Food =======================================================================-->
+    <!-- =================================== Processed Food =======================================================================-->
+
     <br><hr><br> <!-- ========================================================================= -->
 
     <h2>Update Processed Food</h2>
@@ -44,7 +48,7 @@
         Product Name: <input type="text" id="productNameProcFood" placeholder="Enter exact product name" required> <br><br>
         Brand: <input type="text" id="brandNameProcFood" placeholder="Enter exact brand name" required> <br><br>
         <label for="pfUnit">New Unit:</label>
-        <input type="text" id="pfUnit" name="pfUnit">
+        <input type="text" id="pfUnit" name="pfUnit" required>
         <button type="submit">Update Unit</button>
     </form>
 
@@ -52,19 +56,42 @@
 
     <br><br>
     <form id="userDescriptUpdate">
-        Product Name: <input type="text" id="productNameProcFood" placeholder="Enter exact product name" required> <br><br>
-        Brand: <input type="text" id="brandNameProcFood" placeholder="Enter exact brand name" required> <br><br>
+        Product Name: <input type="text" id="productNameProcFoodDesc" placeholder="Enter exact product name" required> <br><br>
+        Brand: <input type="text" id="brandNameProcFoodDesc" placeholder="Enter exact brand name" required> <br><br>
         <label for="userDescript">New Description:</label>
-        <input type="text" id="userDescript" name="userDescript" required>
+        <input type="text" id="userDescript" name="userDescript">
         <button type="submit">Update Description</button>
     </form>
 
     <div id="updateDescriptionResultMsg"></div>
 
+    <br><hr><br> <!-- ========================================================================= -->
+
+    <!-- =================================== Processed Food =======================================================================-->
+    <!-- =================================== Processed Food =======================================================================-->
+    <!-- =================================== Processed Food =======================================================================-->
     <!-- Atta  ==========================================================================================================-->
 
 
-    <br><hr><br> <!-- ========================================================================= -->
+
+
+    <h2>Insert Something </h2>
+
+    <form id="addMealForm">
+        Meal ID: <input type="text" id="mealID" placeholder="Enter meal ID" required> <br><br>
+        User ID: <input type="text" id="userID" placeholder="Enter user ID" required> <br><br>
+        Meal Type: <input type="text" id="mealType" placeholder="Enter meal type" required> <br><br>
+        Product Name: <input type="text" id="procName" placeholder="Enter product name" required> <br><br>
+        Brand: <input type="text" id="brand" placeholder="Enter brand" required> <br><br>
+        <button type="submit">Add Meal</button>
+    </form>
+    
+    <div id="addMealResultMsg"></div>
+
+
+
+
+
 
     <br><hr><br> <!-- ========================================================================= -->
 
@@ -125,5 +152,19 @@
     <!-- ===================================================================================== -->
     <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
     <script src="scripts.js"></script>
+
+    <script>
+
+        document.getElementById('updateUnits').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            updateUnit();
+        });
+
+        document.getElementById('userDescriptUpdate').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            updateDescription(); 
+        });
+
+    </script>
 </body>
 </html>
