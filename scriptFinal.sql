@@ -32,6 +32,11 @@ CREATE TABLE Recipe
     recipeCalories DECIMAL(7,2) not null, 
     PRIMARY KEY (recipeID));
 
+CREATE TABLE User1
+    (height DECIMAL(3,2),
+    weights DECIMAL(5,2),
+    BMI DECIMAL(4,2),
+    PRIMARY KEY (height, weights));
 
 CREATE TABLE User2
     (userID CHAR(8),
@@ -41,12 +46,6 @@ CREATE TABLE User2
     height DECIMAL(3,2),
     weights DECIMAL(5,2),
     PRIMARY KEY (userID));
-
-CREATE TABLE User1
-    (height DECIMAL(3,2),
-    weights DECIMAL(5,2),
-    BMI DECIMAL(4,2),
-    PRIMARY KEY (height, weights));
 
 CREATE TABLE NutritionalValue1
     (protein DECIMAL(7,2),
