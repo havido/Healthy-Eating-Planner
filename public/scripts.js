@@ -281,38 +281,84 @@ async function updateUnit(event) {
     }
 }
 
-// Update the NutriID
-async function updateNutriID(event) {
-    const currentNutriID = document.getElementById('currentNutriID').value;
-    const newNutriID = document.getElementById('newNutriID').value;
 
-    const response = await fetch('/update-nutriid', {
+// ======================= Update Processed Food Function =================================
+// ======================= Update Processed Food Function =================================
+// ======================= Update Processed Food Function =================================
+// ======================= Update Processed Food Function ================================= !!!!!
+
+
+// ======================= Insert Admin User Function =================================
+// ======================= Insert Admin User Function =================================
+// ======================= Insert Admin User Function =================================
+// ======================= Insert Admin User Function =================================
+
+// Deals with the User2 table 
+async function fetchAndDisplayUser2() {
+    const tableElement = document.getElementById('user2Table');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-user-2', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const users = responseData.data;
+
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    users.forEach(user => {
+        const row = tableBody.insertRow();
+        user.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
+
+
+// Insert user into table:
+async function insertUser2toTable(event) {
+    const userID = document.getElementById('userID').value;
+    const username = document.getElementById('username').value;
+    const age = document.getElementById('age').value;
+    const gender = document.getElementById('gender').value;
+    const height = document.getElementById('height').value;
+    const weight = document.getElementById('weight').value;
+
+    const response = await fetch('/insert-user-2', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            currentNutriID: currentNutriID,
-            newNutriID: newNutriID
+            userID: userID,
+            username: username,
+            age: age,
+            gender: gender,
+            height: height,
+            weight: weight
         })
     });
 
     const responseData = await response.json();
-    const messageElement = document.getElementById('updateNutriIDResultMsg');
+    const messageElement = document.getElementById('insertUser2NewPart');
 
     if (responseData.success) {
-        messageElement.textContent = "NutriID updated successfully!";
-        fetchTableData(); 
+        messageElement.textContent = "User inserted successfully!";
+        fetchAndDisplayUser2();
     } else {
-        messageElement.textContent = "Error updating NutriID!";
+        messageElement.textContent = "Error inserting user!";
     }
 }
 
-// ======================= Update Processed Food Function =================================
-// ======================= Update Processed Food Function =================================
-// ======================= Update Processed Food Function =================================
-// ======================= Update Processed Food Function =================================
 
+// ======================= Insert Admin User Function =================================
+// ======================= Insert Admin User Function =================================
+// ======================= Insert Admin User Function =================================
+// ======================= Insert Admin User Function ================================= !!!!!
 
 
 // ---------------------------------------------------------------
@@ -329,11 +375,16 @@ window.onload = function () {
     // New Event Listeners:
     document.getElementById('userDescriptUpdate').addEventListener('submit', updateDescription);
     document.getElementById('updateUnits').addEventListener('submit', updateUnit);
+
+    document.getElementById('insertUser2toTable').addEventListener('submit', insertUser2toTable);
 };
 
 // General function to refresh the displayed table data. 
 // You can invoke this after any table-modifying operation to keep consistency.
 function fetchTableData() {
     fetchAndDisplayUsers();
+
+
     fetchAndDisplayProcessedFoods();
+    fetchAndDisplayUser2();
 }
