@@ -107,6 +107,38 @@ router.post("/update-unit", async (req, res) => {
 
 
 
+// ======================= Insert Proc Meal Function =================================
+// ======================= Insert Proc Meal Function =================================
+// ======================= Insert Proc Meal Function =================================
+// ======================= Insert Proc Meal Function =================================
+
+// Route to get data from User2 table
+router.get('/get-user-2', async (req, res) => {
+    try {
+        const tableContent = await appService.fetchTableFromDb('User2');
+        res.json({ data: tableContent });
+    } catch (error) {
+        res.status(500).json({ success: false });
+    }
+});
+
+
+router.post("/insert-user-2", async (req, res) => {
+    const { userID, username, age, gender, height, weight } = req.body;
+    
+    const insertResult = await appService.insertIntoUser2Table('User2', userID, username, age, gender, height, weight);
+    
+    if (insertResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+// ======================= Insert Proc Meal Function =================================
+// ======================= Insert Proc Meal Function =================================
+// ======================= Insert Proc Meal Function =================================
+// ======================= Insert Proc Meal Function ================================= !!!!!
 
 // Insert operation above.
 
