@@ -84,6 +84,33 @@ async function updateUnit(tableName, productName, brandName, newUnit) {
 // ======================================= Update Food =================================================
 
 
+// ======================================= Insert User =================================================
+// ======================================= Insert User =================================================
+// ======================================= Insert User =================================================
+// ======================================= Insert User =================================================
+
+async function insertIntoUser2Table(tableName, userID, username, age, gender, height, weight) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `INSERT INTO ` + tableName + ` (userID, username, age, gender, height, weights) VALUES (:userID, :username, :age, :gender, :height, :weight)`,
+            [userID, username, age, gender, height, weight],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+// ======================================= Insert User =================================================
+// ======================================= Insert User =================================================
+// ======================================= Insert User =================================================
+// ======================================= Insert User =================================================
+
+
+
+
 
 
 // initialize connection pool
@@ -244,7 +271,7 @@ module.exports = {
     updateUnit,    
     // ==============================
 
-    // Insert Food: ==================
-    
+    // Insert user: ==================
+    insertIntoUser2Table
 
 };
