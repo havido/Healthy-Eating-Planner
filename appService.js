@@ -37,19 +37,27 @@ function generateQuery(tableName, selected_attr, condition_dict) {
 
 // ======================================= Update Food =================================================
 // ======================================= Update Food =================================================
-
+// ======================================= Update Food =================================================
+// ======================================= Update Food =================================================
 
 async function updateDescription(tableName, productName, brandName, newDescription) {
     return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            ' UPDATE ' + tableName +  ' SET userDescript=:newDescription where procName=:productName AND brand=:brandName',
-            [productName, brandName, newDescription],
-            { autoCommit: true }
-        );
+        try {
 
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
+            if (newDescription === '') {
+                newDescription = null;
+            }
+
+            const result = await connection.execute(
+                'UPDATE ' + tableName + ' SET userDescript = :newDescription WHERE procName = :productName AND brand = :brandName',
+                [newDescription, productName, brandName],
+                { autoCommit: true }
+            );
+
+            return result.rowsAffected && result.rowsAffected > 0;
+        } catch (error) {
+            return false;
+        }
     });
 }
 
@@ -57,8 +65,8 @@ async function updateUnit(tableName, productName, brandName, newUnit) {
     return await withOracleDB(async (connection) => {
         try {
             const result = await connection.execute(
-                 ' UPDATE ' + tableName +  ' SET pfUnit = :newUnit WHERE procName = :productName AND brand = :brandName',
-                [productName, brandName, newUnit],
+                ' UPDATE ' + tableName +  ' SET pfUnit = :newUnit WHERE procName = :productName AND brand = :brandName',
+                [newUnit, productName, brandName],
                 { autoCommit: true }
             );
 
@@ -72,6 +80,9 @@ async function updateUnit(tableName, productName, brandName, newUnit) {
 
 // ======================================= Update Food =================================================
 // ======================================= Update Food =================================================
+// ======================================= Update Food =================================================
+// ======================================= Update Food =================================================
+
 
 
 
@@ -228,7 +239,12 @@ module.exports = {
     updateNameTable,
     countTable,
 
-    // Added them here:
+    // Proc Food: ==============================
     updateDescription,
-    updateUnit
+    updateUnit,    
+    // ==============================
+
+    // Insert Food: ==================
+    
+
 };
