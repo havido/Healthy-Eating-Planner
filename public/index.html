@@ -34,14 +34,10 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Rows will be populated by JavaScript -->
         </tbody>
     </table>
 
     <div id="updateSelectProcFoodMsg"></div>
-
-    <!-- <input type="text" id="productNameProcFood" name="productName" placeholder="Product Name" required>
-    <input type="text" id="brandNameProcFood" name="brandName" placeholder="Brand Name" required> -->
 
     <br><br>
     <form id="updateUnits">
@@ -73,23 +69,53 @@
     <!-- Atta  ==========================================================================================================-->
 
 
+    <!-- Atta  ==========================================================================================================-->
+    <!-- =================================== Insert User  =======================================================================-->
+    <!-- =================================== Insert User  =======================================================================-->
+    <!-- =================================== Insert User  =======================================================================-->
 
+    <br><hr><br> <!-- ========================================================================= -->
 
-    <h2>Insert Something </h2>
+    <h2>Admin: Insert Regular Users</h2>
 
-    <form id="addMealForm">
-        Meal ID: <input type="text" id="mealID" placeholder="Enter meal ID" required> <br><br>
-        User ID: <input type="text" id="userID" placeholder="Enter user ID" required> <br><br>
-        Meal Type: <input type="text" id="mealType" placeholder="Enter meal type" required> <br><br>
-        Product Name: <input type="text" id="procName" placeholder="Enter product name" required> <br><br>
-        Brand: <input type="text" id="brand" placeholder="Enter brand" required> <br><br>
-        <button type="submit">Add Meal</button>
-    </form>
+    <table id="user2Table" border="1">
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Username</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Height (meters)</th>
+                <th>Weight (lbs)</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
     
-    <div id="addMealResultMsg"></div>
+    <div id="user2TableDisplayInsert"></div>
 
+    <br><br>
+    <form id="insertUser2Form">
+        User ID (required): <input type="text" id="userID" placeholder="Enter User ID" required> <br><br>
+        Username (required): <input type="text" id="username" placeholder="Enter Username" required> <br><br>
+        Age: <input type="number" id="age" placeholder="Enter Age"> <br><br>
+        Gender: <input type="text" id="gender" placeholder="Enter Gender"> <br><br>
+        Height: <input type="text" id="height" placeholder="Enter Height"> <br><br>
+        Weight: <input type="text" id="weight" placeholder="Enter Weight"> <br><br>
+        <button type="submit">Insert User</button>
+    </form>
+    <div id="insertUser2NewPart"></div>
+    
 
+    
+    <br><hr><br> <!-- ========================================================================= -->
+    <br><hr><br> <!-- ========================================================================= -->
 
+    <!-- =================================== Insert User  =======================================================================-->
+    <!-- =================================== Insert User  =======================================================================-->
+    <!-- =================================== Insert User  =======================================================================-->
+    <!-- Atta  ========================================================================================================== !!!!!!!!!!!!!--> 
 
 
 
@@ -163,6 +189,11 @@
         document.getElementById('userDescriptUpdate').addEventListener('submit', function(event) {
             event.preventDefault(); 
             updateDescription(); 
+        });
+
+        document.getElementById('insertUser2Form').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            insertUser2toTable(); 
         });
 
     </script>
