@@ -192,6 +192,10 @@ async function login() {
 }
 
 // ======================= Update Processed Food Function =================================
+// ======================= Update Processed Food Function =================================
+// ======================= Update Processed Food Function =================================
+// ======================= Update Processed Food Function =================================
+
 
 // Deals with the table 
 async function fetchAndDisplayProcessedFoods() {
@@ -218,12 +222,10 @@ async function fetchAndDisplayProcessedFoods() {
     });
 }
 
-// Update Description
+// Update description
 async function updateDescription(event) {
-    event.preventDefault();
-
-    const productName = document.getElementById('productNameProcFood').value;
-    const brand = document.getElementById('brandNameProcFood').value;
+    const productName = document.getElementById('productNameProcFoodDesc').value;
+    const brand = document.getElementById('brandNameProcFoodDesc').value;
     const description = document.getElementById('userDescript').value;
 
     const response = await fetch('/update-description', {
@@ -231,7 +233,7 @@ async function updateDescription(event) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
             productName: productName,
             brand: brand,
             description: description
@@ -250,10 +252,8 @@ async function updateDescription(event) {
 }
 
 
-// Update the units
+// Update the units (This works now as well.)
 async function updateUnit(event) {
-    event.preventDefault();
-
     const productName = document.getElementById('productNameProcFood').value;
     const brand = document.getElementById('brandNameProcFood').value;
     const unit = document.getElementById('pfUnit').value;
@@ -280,6 +280,39 @@ async function updateUnit(event) {
         messageElement.textContent = "Error updating unit!";
     }
 }
+
+// Update the NutriID
+async function updateNutriID(event) {
+    const currentNutriID = document.getElementById('currentNutriID').value;
+    const newNutriID = document.getElementById('newNutriID').value;
+
+    const response = await fetch('/update-nutriid', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            currentNutriID: currentNutriID,
+            newNutriID: newNutriID
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('updateNutriIDResultMsg');
+
+    if (responseData.success) {
+        messageElement.textContent = "NutriID updated successfully!";
+        fetchTableData(); 
+    } else {
+        messageElement.textContent = "Error updating NutriID!";
+    }
+}
+
+// ======================= Update Processed Food Function =================================
+// ======================= Update Processed Food Function =================================
+// ======================= Update Processed Food Function =================================
+// ======================= Update Processed Food Function =================================
+
 
 
 // ---------------------------------------------------------------
