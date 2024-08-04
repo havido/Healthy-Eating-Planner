@@ -25,7 +25,7 @@ async function getUserInfo() {
 		const data = responseData.data;
 		welcomeMsgElement.innerHTML = 'Welcome, ' + data[0][1] + '!';
 	} else {
-		messageElement.textContent = "Failed to get into!";
+		welcomeMsgElement.textContent = "Failed to get into!";
 	}
 }
 
@@ -83,7 +83,8 @@ async function generateUsersTable() {
 
 
 async function deleteUser() {
-	const userID = document.getElementById('deleteUserID').value;
+	const userIDElement = document.getElementById('deleteUserID');
+	const userID = userIDElement.value;
 
 	if (!userID) {
 		alert('Please enter a valid userID!');
@@ -105,13 +106,14 @@ async function deleteUser() {
 	});
 
 	const responseData = await response.json();
+	generateUsersTable();
 	if (responseData.success) {
 		alert('User deleted successfully!');
 	} else {
 		alert('Failed to delete user!');
 	}
 
-	generateUsersTable();
+	userIDElement.value = '';
 }
 
 // ---------------------------------------------------------------
