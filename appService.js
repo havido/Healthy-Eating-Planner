@@ -42,7 +42,7 @@ function generateQuery(tableName, selected_attr, condition_dict) {
 async function updateDescription(tableName, productName, brandName, newDescription) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
-            ' UPDATE ' + tableName +  ' SET userDescript=:newDescription where procName=:productName AND brand=:brandName',
+            ' UPDATE ' + tableName + ' SET userDescript=:newDescription where procName=:productName AND brand=:brandName',
             [productName, brandName, newDescription],
             { autoCommit: true }
         );
@@ -57,7 +57,7 @@ async function updateUnit(tableName, productName, brandName, newUnit) {
     return await withOracleDB(async (connection) => {
         try {
             const result = await connection.execute(
-                 ' UPDATE ' + tableName +  ' SET pfUnit = :newUnit WHERE procName = :productName AND brand = :brandName',
+                ' UPDATE ' + tableName + ' SET pfUnit = :newUnit WHERE procName = :productName AND brand = :brandName',
                 [productName, brandName, newUnit],
                 { autoCommit: true }
             );
@@ -194,6 +194,52 @@ async function readRowsWithValuesFromTable(tableName, selected_attr, condition_d
     });
 }
 
+async function deleteFromTable(tableName, condition_dict) {
+    return await withOracleDB(async (connection) => {
+        const keys = Object.keys(condition_dict);
+        const vals = Object.values(condition_dict);
+        const length = Object.keys(condition_dict).length;
+
+        var query = "DELETE FROM " + tableName + " WHERE ";
+
+        for (let i = 0; i < length; i++) {
+            const key = keys[i].toUpperCase();
+            query += key + "=\'" + vals[i] + "\'";
+            if (i != length - 1) {
+                query += " AND ";
+            }
+        }
+
+        const result = await connection.execute(
+            query,
+            [],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+
+
+async function joinAllUserTables() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `SELECT *
+            FROM USER2 
+            LEFT JOIN USER1 ON USER2.HEIGHT=USER1.HEIGHT AND USER1.WEIGHTS=USER2.WEIGHTS
+            LEFT JOIN ADMINAPP ON USER2.USERID=ADMINAPP.USERID
+            LEFT JOIN REGULARUSER ON USER2.USERID=REGULARUSER.USERID`
+        );
+        return result;
+    }).catch(() => {
+        return false;
+    });
+}
+
+
 // Q: not sure if name=: can be anything or this is a syntax of SQl that we will not change
 // and doest not need to be a variable
 async function updateNameTable(tableName, oldName, newName) {
@@ -224,9 +270,13 @@ module.exports = {
     fetchTableFromDb,
     initiateTable,
     insertIntoTable,
-    readRowsWithValuesFromTable,
     updateNameTable,
     countTable,
+    // general functions
+    readRowsWithValuesFromTable,
+    deleteFromTable,
+    // hard coded functionalities
+    joinAllUserTables,
 
     // Added them here:
     updateDescription,

@@ -11,6 +11,38 @@
     <h1>Admin Dashboard</h1>
      <!-- Element to display the message -->
      <p id="welcomeMsg"></p>
-   
-</body>
+
+    <!-- Main table -->
+     <h2>All Users</h2>
+
+     <table id="usersTable" border="1">
+         <thead id="userTableHeaders">
+             <tr >
+             <!-- Header will be populated by JavaScript -->
+             </tr>
+         </thead>
+         <tbody id="userTableBody">
+             <!-- Rows will be populated by JavaScript -->
+         </tbody>
+     </table> 
+
+    <!-- Main table -->
+    
+    <h2>Delete User</h2>
+    <form id="deleteUserForm">
+        <label for="deleteUser">User ID:</label>
+        <input type="text" id="deleteUserID" name="deleteUser">
+        <button type="submit">Delete User</button>
+    </form>
+    <script>
+        // Attach the delete function to the form submit event
+        document.getElementById('deleteUserForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting
+            deleteUser(); // Call the login function
+        });
+    </script>
+
+
+
+    </body>
 </html>
