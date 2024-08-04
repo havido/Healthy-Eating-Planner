@@ -251,13 +251,13 @@ INSERT INTO User2 (userID, username, age, gender, height, weights)
 VALUES ('U0000004', 'Jack', 33, 'male', 1.75, 70.0);
 
 INSERT INTO User2 (userID, username, age, gender, height, weights)
-VALUES ('U0000005', 'Karen', 45, 'female', 1.65, 62.0);
+VALUES ('U0000005', 'Karen', 45, 'female', 1.6, 62.0);
 
 INSERT INTO User2 (userID, username, age, gender, height, weights)
-VALUES ('U0000010', 'Alice', 30, 'female', 1.65, 70.2);
+VALUES ('U0000010', 'Alice', 30, 'female', 1.28, 70.2);
 
 INSERT INTO User2 (userID, username, age, gender, height, weights)
-VALUES ('U0000020', 'Bob', 25, 'male', 1.70, 80.1);
+VALUES ('U0000020', 'Bob', 25, 'male', 1.70, 80.0);
 
 INSERT INTO User2 (userID, username, age, gender, height, weights)
 VALUES ('U0000030', 'Charlie', 19, null, null, null);
