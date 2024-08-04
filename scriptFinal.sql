@@ -48,7 +48,7 @@ CREATE TABLE User1
     BMI DECIMAL(4,2),
     PRIMARY KEY (height, weights),
     FOREIGN KEY (height) references User2(height) ON DELETE CASCADE,
-	FOREIGN KEY (weights) references Recipe(weights) ON DELETE CASCADE);
+	FOREIGN KEY (weights) references User2(weights) ON DELETE CASCADE);
 
 CREATE TABLE NutritionalValue1
     (protein DECIMAL(7,2),
