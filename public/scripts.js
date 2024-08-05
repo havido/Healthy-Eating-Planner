@@ -354,6 +354,7 @@ async function insertUser2toTable(event) {
     }
 }
 
+
         // ---------------- Regular User Part ------------------------
 
 // This is the regular table displayed.
@@ -409,6 +410,7 @@ async function insertRegularUsertoTable(event) {
 }
 
 
+
 // ======================= Insert Admin User Function =================================
 // ======================= Insert Admin User Function =================================
 // ======================= Insert Admin User Function =================================
@@ -426,11 +428,10 @@ window.onload = function () {
     document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
     document.getElementById("countDemotable").addEventListener("click", countDemotable);
 
-    // New Event Listeners processed food:
+    // New Event Listeners:
     document.getElementById('userDescriptUpdate').addEventListener('submit', updateDescription);
     document.getElementById('updateUnits').addEventListener('submit', updateUnit);
 
-    // New Event Listeners insert users stuff:
     document.getElementById('insertUser2toTable').addEventListener('submit', insertUser2toTable);
     document.getElementById('insertRegularUsertoTable').addEventListener('submit', insertRegularUsertoTable);
 };
