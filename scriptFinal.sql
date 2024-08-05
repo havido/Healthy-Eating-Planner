@@ -4,25 +4,25 @@
 - Got TO_TIMESTAMP(...) from https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/TO_TIMESTAMP.html 
 */
 
-drop table Recipe cascade constraints;
-drop table User1 cascade constraints;
-drop table user2 cascade constraints;
-drop table NutritionalValue1 cascade constraints;
+DROP TABLE Recipe cascade constraints;
+DROP TABLE User1 cascade constraints;
+DROP TABLE user2 cascade constraints;
+DROP TABLE NutritionalValue1 cascade constraints;
 
-drop table Makes cascade constraints;
-drop table ActivityLogReporting cascade constraints;
-drop table AdminApp cascade constraints;
-drop table RegularUser cascade constraints;
-drop table UserDietaryRestriction cascade constraints;
-drop table MealEating cascade constraints;
-drop table UserMealLogging cascade constraints;
-drop table Creating cascade constraints;
+DROP TABLE Makes cascade constraints;
+DROP TABLE ActivityLogReporting cascade constraints;
+DROP TABLE AdminApp cascade constraints;
+DROP TABLE RegularUser cascade constraints;
+DROP TABLE UserDietaryRestriction cascade constraints;
+DROP TABLE MealEating cascade constraints;
+DROP TABLE UserMealLogging cascade constraints;
+DROP TABLE Creating cascade constraints;
 
-drop table NutritionalValue2 cascade constraints;
-drop table Ingredient cascade constraints;
-drop table RecipIngr cascade constraints;
-drop table ProcessedFood cascade constraints;
-drop table ProcMeal cascade constraints;
+DROP TABLE NutritionalValue2 cascade constraints;
+DROP TABLE Ingredient cascade constraints;
+DROP TABLE RecipIngr cascade constraints;
+DROP TABLE ProcessedFood cascade constraints;
+DROP TABLE ProcMeal cascade constraints;
 
 CREATE TABLE Recipe 
     (recipeID CHAR(8), 
