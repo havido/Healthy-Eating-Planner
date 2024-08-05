@@ -65,7 +65,7 @@ async function updateUnit(tableName, productName, brandName, newUnit) {
     return await withOracleDB(async (connection) => {
         try {
             const result = await connection.execute(
-                ' UPDATE ' + tableName +  ' SET pfUnit = :newUnit WHERE procName = :productName AND brand = :brandName',
+                ' UPDATE ' + tableName + ' SET pfUnit = :newUnit WHERE procName = :productName AND brand = :brandName',
                 [newUnit, productName, brandName],
                 { autoCommit: true }
             );
@@ -292,6 +292,38 @@ async function joinAllUserTables() {
     });
 }
 
+async function filterUserTablesUsingAttrs(condition_attrs) {
+    return await withOracleDB(async (connection) => {
+
+        //     const q = `
+        //     SELECT * 
+        //     FROM USER2 
+        //     LEFT JOIN USER1 ON USER2.HEIGHT=USER1.HEIGHT AND USER1.WEIGHTS=USER2.WEIGHTS 
+        //     LEFT JOIN ADMINAPP ON USER2.USERID=ADMINAPP.USERID 
+        //     LEFT JOIN REGULARUSER ON USER2.USERID=REGULARUSER.USERID 
+        //     WHERE AGE='35' OR AGE='28' AND GENDER='female'
+        // `.trim();
+        var q = `
+        SELECT * 
+        FROM USER2 
+        LEFT JOIN USER1 ON USER2.HEIGHT=USER1.HEIGHT AND USER1.WEIGHTS=USER2.WEIGHTS 
+        LEFT JOIN ADMINAPP ON USER2.USERID=ADMINAPP.USERID 
+        LEFT JOIN REGULARUSER ON USER2.USERID=REGULARUSER.USERID
+    `.trim();
+
+        if (condition_attrs) {
+            q += ` WHERE ` + condition_attrs.trim();
+        }
+
+
+        const result = await connection.execute(q);
+        return result;
+
+    }).catch(() => {
+        return false;
+    });
+}
+
 
 // Q: not sure if name=: can be anything or this is a syntax of SQl that we will not change
 // and doest not need to be a variable
@@ -330,12 +362,13 @@ module.exports = {
     deleteFromTable,
     // hard coded functionalities
     joinAllUserTables,
+    filterUserTablesUsingAttrs,
 
     // Proc Food: ==============================
     updateDescription,
-    updateUnit,    
+    updateUnit,
     // ==============================
-    
+
     // Insert user: ==================
     insertIntoUser2Table,
     insertIntoRegularUserTable
