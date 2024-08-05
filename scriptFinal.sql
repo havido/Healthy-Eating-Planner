@@ -215,7 +215,7 @@ INSERT INTO User1 (height, weights, BMI)
 VALUES (1.60, 55.0, 21.5);
 
 INSERT INTO User1 (height, weights, BMI)
-VALUES (1.75, 70.0, 22.9);
+VALUES (1.75, 70.0, 22.2);
 
 INSERT INTO User1 (height, weights, BMI)
 VALUES (1.65, 62.0, 22.8);
@@ -230,7 +230,7 @@ INSERT INTO User1 (height, weights, BMI)
 VALUES (1.49, 35.7, 16.1);
 
 INSERT INTO User1 (height, weights, BMI)
-VALUES (2.15, 92.0, 19.9);
+VALUES (2.15, 92.0, 19.8);
 
 INSERT INTO User1 (height, weights, BMI)
 VALUES (1.52, 50.1, 21.7);
