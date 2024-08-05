@@ -192,6 +192,10 @@ async function login() {
 }
 
 // ======================= Update Processed Food Function =================================
+// ======================= Update Processed Food Function =================================
+// ======================= Update Processed Food Function =================================
+// ======================= Update Processed Food Function =================================
+
 
 // Deals with the table 
 async function fetchAndDisplayProcessedFoods() {
@@ -218,12 +222,10 @@ async function fetchAndDisplayProcessedFoods() {
     });
 }
 
-// Update Description
+// Update description
 async function updateDescription(event) {
-    event.preventDefault();
-
-    const productName = document.getElementById('productNameProcFood').value;
-    const brand = document.getElementById('brandNameProcFood').value;
+    const productName = document.getElementById('productNameProcFoodDesc').value;
+    const brand = document.getElementById('brandNameProcFoodDesc').value;
     const description = document.getElementById('userDescript').value;
 
     const response = await fetch('/update-description', {
@@ -231,7 +233,7 @@ async function updateDescription(event) {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
             productName: productName,
             brand: brand,
             description: description
@@ -250,10 +252,8 @@ async function updateDescription(event) {
 }
 
 
-// Update the units
+// Update the units (This works now as well.)
 async function updateUnit(event) {
-    event.preventDefault();
-
     const productName = document.getElementById('productNameProcFood').value;
     const brand = document.getElementById('brandNameProcFood').value;
     const unit = document.getElementById('pfUnit').value;
@@ -282,6 +282,141 @@ async function updateUnit(event) {
 }
 
 
+// ======================= Update Processed Food Function =================================
+// ======================= Update Processed Food Function =================================
+// ======================= Update Processed Food Function =================================
+// ======================= Update Processed Food Function ================================= !!!!!
+
+
+// ======================= Insert Admin User Function =================================
+// ======================= Insert Admin User Function =================================
+// ======================= Insert Admin User Function =================================
+// ======================= Insert Admin User Function =================================
+
+// Deals with the User2 table 
+async function fetchAndDisplayUser2() {
+    const tableElement = document.getElementById('user2Table');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-user-2', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const users = responseData.data;
+
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    users.forEach(user => {
+        const row = tableBody.insertRow();
+        user.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
+
+
+// Insert user into table:
+async function insertUser2toTable(event) {
+    const userID = document.getElementById('userID').value;
+    const username = document.getElementById('username').value;
+    const age = document.getElementById('age').value;
+    const gender = document.getElementById('gender').value;
+    const height = document.getElementById('height').value;
+    const weight = document.getElementById('weight').value;
+
+    const response = await fetch('/insert-user-2', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            userID: userID,
+            username: username,
+            age: age,
+            gender: gender,
+            height: height,
+            weight: weight
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('insertUser2NewPart');
+
+    if (responseData.success) {
+        messageElement.textContent = "User inserted successfully!";
+        fetchAndDisplayUser2();
+    } else {
+        messageElement.textContent = "Error inserting user!";
+    }
+}
+
+
+        // ---------------- Regular User Part ------------------------
+
+// This is the regular table displayed.
+async function fetchAndDisplayRegularUser() {
+    const tableElement = document.getElementById('insertRegularUserTable');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-regular-user', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const regularUsers = responseData.data;
+
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    regularUsers.forEach(regularUser => {
+        const row = tableBody.insertRow();
+        regularUser.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
+
+// Need to insert user present into regular user table
+async function insertRegularUsertoTable(event) {
+    const regularUserID = document.getElementById('regularUserID').value;
+    const subscriptionType = document.getElementById('subscriptionType').value;
+
+    const response = await fetch('/insert-regular-user', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            userID: regularUserID,
+            subscriptionType: subscriptionType
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('insertRegularUserNewPart');
+
+    if (responseData.success) {
+        messageElement.textContent = "Regular user inserted successfully!";
+        fetchAndDisplayRegularUser();
+    } else {
+        messageElement.textContent = "Error inserting regular user!";
+    }
+}
+
+
+
+// ======================= Insert Admin User Function =================================
+// ======================= Insert Admin User Function =================================
+// ======================= Insert Admin User Function =================================
+// ======================= Insert Admin User Function ================================= !!!!!
+
+
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
 // Add or remove event listeners based on the desired functionalities.
@@ -296,11 +431,17 @@ window.onload = function () {
     // New Event Listeners:
     document.getElementById('userDescriptUpdate').addEventListener('submit', updateDescription);
     document.getElementById('updateUnits').addEventListener('submit', updateUnit);
+
+    document.getElementById('insertUser2toTable').addEventListener('submit', insertUser2toTable);
+    document.getElementById('insertRegularUsertoTable').addEventListener('submit', insertRegularUsertoTable);
 };
 
 // General function to refresh the displayed table data. 
 // You can invoke this after any table-modifying operation to keep consistency.
 function fetchTableData() {
     fetchAndDisplayUsers();
+
     fetchAndDisplayProcessedFoods();
+    fetchAndDisplayUser2();
+    fetchAndDisplayRegularUser();
 }

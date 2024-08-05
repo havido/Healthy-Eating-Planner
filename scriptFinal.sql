@@ -4,25 +4,25 @@
 - Got TO_TIMESTAMP(...) from https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/TO_TIMESTAMP.html 
 */
 
-drop table Recipe cascade constraints;
-drop table User1 cascade constraints;
-drop table user2 cascade constraints;
-drop table NutritionalValue1 cascade constraints;
+DROP TABLE Recipe cascade constraints;
+DROP TABLE User1 cascade constraints;
+DROP TABLE user2 cascade constraints;
+DROP TABLE NutritionalValue1 cascade constraints;
 
-drop table Makes cascade constraints;
-drop table ActivityLogReporting cascade constraints;
-drop table AdminApp cascade constraints;
-drop table RegularUser cascade constraints;
-drop table UserDietaryRestriction cascade constraints;
-drop table MealEating cascade constraints;
-drop table UserMealLogging cascade constraints;
-drop table Creating cascade constraints;
+DROP TABLE Makes cascade constraints;
+DROP TABLE ActivityLogReporting cascade constraints;
+DROP TABLE AdminApp cascade constraints;
+DROP TABLE RegularUser cascade constraints;
+DROP TABLE UserDietaryRestriction cascade constraints;
+DROP TABLE MealEating cascade constraints;
+DROP TABLE UserMealLogging cascade constraints;
+DROP TABLE Creating cascade constraints;
 
-drop table NutritionalValue2 cascade constraints;
-drop table Ingredient cascade constraints;
-drop table RecipIngr cascade constraints;
-drop table ProcessedFood cascade constraints;
-drop table ProcMeal cascade constraints;
+DROP TABLE NutritionalValue2 cascade constraints;
+DROP TABLE Ingredient cascade constraints;
+DROP TABLE RecipIngr cascade constraints;
+DROP TABLE ProcessedFood cascade constraints;
+DROP TABLE ProcMeal cascade constraints;
 
 CREATE TABLE Recipe 
     (recipeID CHAR(8), 
@@ -250,13 +250,13 @@ INSERT INTO User2 (userID, username, age, gender, height, weights)
 VALUES ('U0000004', 'Jack', 33, 'male', 1.75, 70.0);
 
 INSERT INTO User2 (userID, username, age, gender, height, weights)
-VALUES ('U0000005', 'Karen', 45, 'female', 1.65, 62.0);
+VALUES ('U0000005', 'Karen', 45, 'female', 1.6, 62.0);
 
 INSERT INTO User2 (userID, username, age, gender, height, weights)
-VALUES ('U0000010', 'Alice', 30, 'female', 1.65, 70.2);
+VALUES ('U0000010', 'Alice', 30, 'female', 1.28, 70.2);
 
 INSERT INTO User2 (userID, username, age, gender, height, weights)
-VALUES ('U0000020', 'Bob', 25, 'male', 1.70, 80.1);
+VALUES ('U0000020', 'Bob', 25, 'male', 1.70, 80.0);
 
 INSERT INTO User2 (userID, username, age, gender, height, weights)
 VALUES ('U0000030', 'Charlie', 19, null, null, null);
