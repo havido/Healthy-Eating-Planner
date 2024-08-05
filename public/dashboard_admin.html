@@ -26,7 +26,73 @@
          </tbody>
      </table> 
 
-    <!-- Main table -->
+    <!-- filter rows -->
+        
+    <h2>Filter Rows</h2>
+    <form id="filterForm">
+        <div id="conditions">
+            <div class="condition">
+                <label for="attribute">Attribute:</label>
+                <select name="attribute" class="attribute">
+                    <option value="USERID">USERID</option>
+                    <option value="USERNAME">USERNAME</option>
+                    <option value="AGE">AGE</option>
+                    <option value="GENDER">GENDER</option>
+                    <option value="HEIGHT">HEIGHT</option>
+                    <option value="WEIGHTS">WEIGHTS</option>
+                    <option value="BMI">BMI</option>
+                    <option value="ADMINLEVEL">ADMINLEVEL</option>
+                    <option value="SUBSCRIPTIONTYPE">SUBSCRIPTIONTYPE</option>
+                    <!-- Add more attributes as needed -->
+                </select>
+                =
+                <input type="text" name="value" class="value" placeholder="Value">
+                <select name="logical" class="logical">
+                    <option value="AND">AND</option>
+                    <option value="OR">OR</option>
+                </select>
+            </div>
+        </div>
+        <button type="button" id="addCondition">Add Condition</button>
+        <button type="submit">Filter</button>
+    </form>
+
+    <script>
+        document.getElementById('addCondition').addEventListener('click', function() {
+            const conditionDiv = document.createElement('div');
+            conditionDiv.className = 'condition';
+            conditionDiv.innerHTML = `
+                <label for="attribute">Attribute:</label>
+                <select name="attribute" class="attribute">
+                    <option value="USERID">USERID</option>
+                    <option value="USERNAME">USERNAME</option>
+                    <option value="AGE">AGE</option>
+                    <option value="GENDER">GENDER</option>
+                    <option value="HEIGHT">HEIGHT</option>
+                    <option value="WEIGHTS">WEIGHTS</option>
+                    <option value="BMI">BMI</option>
+                    <option value="ADMINLEVEL">ADMINLEVEL</option>
+                    <option value="SUBSCRIPTIONTYPE">SUBSCRIPTIONTYPE</option>
+                    <!-- Add more attributes as needed -->
+                </select>
+                =
+                <input type="text" name="value" class="value" placeholder="Value">
+                <select name="logical" class="logical">
+                    <option value="AND">AND</option>
+                    <option value="OR">OR</option>
+                </select>
+            `;
+            document.getElementById('conditions').appendChild(conditionDiv);
+        });
+
+        document.getElementById('filterForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting
+            filterRows(); // Call the filter function
+        });
+    </script>
+
+
+     <!-- Delete user -->
     
     <h2>Delete User</h2>
     <form id="deleteUserForm">

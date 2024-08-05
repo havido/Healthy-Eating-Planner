@@ -1,11 +1,8 @@
-
-
 // Retrieve the userID from local storage
 const g_userID = localStorage.getItem('LocalStorage-userID');
 
 // Logs in the user by sending a request to the backend with the username
 async function getUserInfo() {
-
 
 	const response = await fetch('/user-info', {
 		method: 'POST',
@@ -114,6 +111,19 @@ async function deleteUser() {
 	}
 
 	userIDElement.value = '';
+}
+
+async function filterRows() {
+	const conditions = [];
+	document.querySelectorAll('.condition').forEach(condition => {
+		const attribute = condition.querySelector('.attribute').value;
+		const value = condition.querySelector('.value').value;
+		const logical = condition.querySelector('.logical').value;
+		if (value === '' || value == 'N/A') return; // Skip empty values
+		conditions.push(`${attribute} = "${value}" ${logical}`);
+	});
+	const query = conditions.join(' ').replace(/ (AND|OR) $/, ''); // Remove trailing AND/OR
+	console.log(query); // Replace with actual query execution	
 }
 
 // ---------------------------------------------------------------

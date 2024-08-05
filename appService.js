@@ -293,6 +293,35 @@ async function joinAllUserTables() {
 }
 
 
+async function deleteFromTable(tableName, condition_dict) {
+    return await withOracleDB(async (connection) => {
+        const keys = Object.keys(condition_dict);
+        const vals = Object.values(condition_dict);
+        const length = Object.keys(condition_dict).length;
+
+        var query = "DELETE FROM " + tableName + " WHERE ";
+
+        for (let i = 0; i < length; i++) {
+            const key = keys[i].toUpperCase();
+            query += key + "=\'" + vals[i] + "\'";
+            if (i != length - 1) {
+                query += " AND ";
+            }
+        }
+
+        const result = await connection.execute(
+            query,
+            [],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+
 // Q: not sure if name=: can be anything or this is a syntax of SQl that we will not change
 // and doest not need to be a variable
 async function updateNameTable(tableName, oldName, newName) {
