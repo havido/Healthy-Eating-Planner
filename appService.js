@@ -42,7 +42,7 @@ function generateQuery(tableName, selected_attr, condition_dict) {
 
 async function updateDescription(tableName, productName, brandName, newDescription) {
     return await withOracleDB(async (connection) => {
-
+        try {
             const result = await connection.execute(
                 'UPDATE ' + tableName + ' SET userDescript = :newDescription WHERE procName = :productName AND brand = :brandName',
                 [newDescription, productName, brandName],
@@ -83,11 +83,28 @@ async function updateUnit(tableName, productName, brandName, newUnit) {
 // ======================================= Insert User =================================================
 // ======================================= Insert User =================================================
 
+// This would be in user2 table
 async function insertIntoUser2Table(tableName, userID, username, age, gender, height, weight) {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `INSERT INTO ` + tableName + ` (userID, username, age, gender, height, weights) VALUES (:userID, :username, :age, :gender, :height, :weight)`,
             [userID, username, age, gender, height, weight],
+            { autoCommit: true }
+        );
+
+        return result.rowsAffected && result.rowsAffected > 0;
+    }).catch(() => {
+        return false;
+    });
+}
+
+
+// This would be in regular user table
+async function insertIntoRegularUserTable(tableName, userID, subscriptionType) {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            `INSERT INTO ` + tableName + ` (userID, subscriptionType) VALUES (:userID, :subscriptionType)`,
+            [userID, subscriptionType],
             { autoCommit: true }
         );
 
@@ -316,6 +333,6 @@ module.exports = {
     // ==============================
 
     // Insert user: ==================
-    insertIntoUser2Table
-
+    insertIntoUser2Table,
+    insertIntoRegularUserTable
 };

@@ -354,6 +354,60 @@ async function insertUser2toTable(event) {
     }
 }
 
+        // ---------------- Regular User Part ------------------------
+
+// This is the regular table displayed.
+async function fetchAndDisplayRegularUser() {
+    const tableElement = document.getElementById('insertRegularUserTable');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/get-regular-user', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const regularUsers = responseData.data;
+
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    regularUsers.forEach(regularUser => {
+        const row = tableBody.insertRow();
+        regularUser.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
+
+// Need to insert user present into regular user table
+async function insertRegularUsertoTable(event) {
+    const regularUserID = document.getElementById('regularUserID').value;
+    const subscriptionType = document.getElementById('subscriptionType').value;
+
+    const response = await fetch('/insert-regular-user', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            userID: regularUserID,
+            subscriptionType: subscriptionType
+        })
+    });
+
+    const responseData = await response.json();
+    const messageElement = document.getElementById('insertRegularUserNewPart');
+
+    if (responseData.success) {
+        messageElement.textContent = "Regular user inserted successfully!";
+        fetchAndDisplayRegularUser();
+    } else {
+        messageElement.textContent = "Error inserting regular user!";
+    }
+}
+
 
 // ======================= Insert Admin User Function =================================
 // ======================= Insert Admin User Function =================================
@@ -372,11 +426,13 @@ window.onload = function () {
     document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
     document.getElementById("countDemotable").addEventListener("click", countDemotable);
 
-    // New Event Listeners:
+    // New Event Listeners processed food:
     document.getElementById('userDescriptUpdate').addEventListener('submit', updateDescription);
     document.getElementById('updateUnits').addEventListener('submit', updateUnit);
 
+    // New Event Listeners insert users stuff:
     document.getElementById('insertUser2toTable').addEventListener('submit', insertUser2toTable);
+    document.getElementById('insertRegularUsertoTable').addEventListener('submit', insertRegularUsertoTable);
 };
 
 // General function to refresh the displayed table data. 
@@ -387,4 +443,5 @@ function fetchTableData() {
 
     fetchAndDisplayProcessedFoods();
     fetchAndDisplayUser2();
+    fetchAndDisplayRegularUser();
 }
