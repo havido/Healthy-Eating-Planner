@@ -103,6 +103,9 @@ router.post('/admin-delete-user', async (req, res) => {
 
 
 // ======================================= Update Food =================================================
+// ======================================= Update Food =================================================
+// ======================================= Update Food =================================================
+// ======================================= Update Food =================================================
 
 router.get('/get-processed-foods', async (req, res) => {
     try {
@@ -115,8 +118,8 @@ router.get('/get-processed-foods', async (req, res) => {
 });
 
 router.post("/update-description", async (req, res) => {
-    const { productName, brandName, description } = req.body;
-    const updateResult = await appService.updateDescription('ProcessedFood', productName, brandName, description);
+    const { productName, brand, description } = req.body;
+    const updateResult = await appService.updateDescription('ProcessedFood', productName, brand, description);
     if (updateResult) {
         res.json({ success: true });
     } else {
@@ -129,13 +132,74 @@ router.post("/update-unit", async (req, res) => {
     const updateResult = await appService.updateUnit('ProcessedFood', productName, brand, unit);
     if (updateResult) {
         res.json({ success: true });
+     } else {
+         res.status(500).json({ success: false });
+    }
+});
+
+// ======================================= Update Food =================================================
+// ======================================= Update Food =================================================
+// ======================================= Update Food =================================================
+// ======================================= Update Food =================================================
+
+
+
+// ======================= Insert User Function =================================
+// ======================= Insert User Function =================================
+// ======================= Insert User Function =================================
+// ======================= Insert User Function =================================
+
+// Route to get data from User2 table
+router.get('/get-user-2', async (req, res) => {
+    try {
+        const tableContent = await appService.fetchTableFromDb('User2');
+        res.json({ data: tableContent });
+    } catch (error) {
+        res.status(500).json({ success: false });
+    }
+});
+
+// Deaks with the post for insert functionality part.
+router.post("/insert-user-2", async (req, res) => {
+    const { userID, username, age, gender, height, weight } = req.body;
+    
+    const insertResult = await appService.insertIntoUser2Table('User2', userID, username, age, gender, height, weight);
+    
+    if (insertResult) {
+        res.json({ success: true });
     } else {
         res.status(500).json({ success: false });
     }
 });
 
+        // ----------------- Dealing with now instead of the regular user stuff. ------------------
 
-// ======================================= Update Food =================================================
+// Actual regular user table in this case.
+router.get('/get-regular-user', async (req, res) => {
+    try {
+        const tableContent = await appService.fetchTableFromDb('RegularUser');
+        res.json({ data: tableContent });
+    } catch (error) {
+        res.status(500).json({ success: false });
+    }
+});
+
+router.post("/insert-regular-user", async (req, res) => {
+    const { userID, subscriptionType } = req.body;
+
+    const insertResult = await appService.insertIntoRegularUserTable('RegularUser', userID, subscriptionType);
+
+    if (insertResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
+// ======================= Insert User Function =================================
+// ======================= Insert User Function =================================
+// ======================= Insert User Function =================================
+// ======================= Insert User Function ================================= !!!!!
 
 
 router.get('/check-db-connection', async (req, res) => {
