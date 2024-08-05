@@ -3,14 +3,6 @@ const appService = require('./appService');
 
 const router = express.Router();
 
-const LOGGIN = true
-
-function log1(s) {
-    if (LOGGIN) {
-        console.log(s)
-    }
-}
-
 // ----------------------------------------------------------
 // API endpoints
 // Modify or extend these routes based on your project's needs.
@@ -34,14 +26,14 @@ router.post("/login", async (req, res) => {
     // try to find the user in the USER2 table first
     const isUserFound = await appService.readRowsWithValuesFromTable('REGULARUSER', selected_attr, condition_dict);
     if (isUserFound.length > 0) {
-        res.json({ success: true, isAdmin: false})
+        res.json({ success: true, isAdmin: false })
         return
     }
 
     // if the user is not found in the USER2 table, try to find it in the ADMINAPP table
     const isAdminFound = await appService.readRowsWithValuesFromTable('ADMINAPP', selected_attr, condition_dict);
     if (isAdminFound) {
-        res.json({ success: true, isAdmin: true})
+        res.json({ success: true, isAdmin: true })
         return
     }
 
@@ -59,11 +51,56 @@ router.post('/user-info', async (req, res) => {
     if (!req.body.hasOwnProperty('USERID') || !req.body.USERID || Object.keys(req.body).length > 1) {
         res.status(500).json({ success: false });
     }
-
+    condition_dict = req.body
     const result = await appService.readRowsWithValuesFromTable('USER2', ['*'], condition_dict);
     res.json({ success: true, data: result })
     return
 });
+
+router.post('/admin-get-all-users', async (req, res) => {
+    if (!req.body) {
+        res.status(500).json({ success: false });
+    }
+    // fail if body does not have userID key and value
+    if (!req.body.hasOwnProperty('USERID') || !req.body.USERID || Object.keys(req.body).length > 1) {
+        res.status(500).json({ success: false });
+    }
+
+    const allUsersResult = await appService.joinAllUserTables()
+    if (!allUsersResult || !allUsersResult.metaData) {
+        throw new Error("No data returned or invalid query");
+    }
+    const allUsersResultAttrs = allUsersResult.metaData.map(col => col.name);
+    const allUsersJsonData = allUsersResult.rows.map(row => {
+        let rowObject = {};
+        allUsersResultAttrs.forEach((col, index) => {
+            rowObject[col] = row[index];
+        });
+        return rowObject;
+    });
+
+    res.json({ success: true, data: allUsersJsonData });
+    return;
+});
+
+router.post('/admin-delete-user', async (req, res) => {
+    if (!req.body) {
+        res.status(500).json({ success: false });
+    }
+    // fail if body does not have userID key and value
+    if (!req.body.hasOwnProperty('USERID') || !req.body.USERID || Object.keys(req.body).length > 1) {
+        res.status(500).json({ success: false });
+    }
+
+    const condition_dict = req.body
+    const deleteResult = await appService.deleteFromTable('USER2', condition_dict);
+    if (deleteResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
 
 // ======================================= Update Food =================================================
 // ======================================= Update Food =================================================
