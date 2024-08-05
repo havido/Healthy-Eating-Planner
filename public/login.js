@@ -4,7 +4,7 @@ async function login() {
 	const messageElement = document.getElementById('loginResultMsg');
 	messageElement.textContent = "";
 
-	const userID = document.getElementById('userID').value;
+	const userID = document.getElementById('userID').value.trim();
 
 	const response = await fetch('/login', {
 		method: 'POST',

@@ -55,7 +55,9 @@
         </div>
         <button type="button" id="addCondition">Add Condition</button>
         <button type="submit">Filter</button>
+        
     </form>
+    <button type="submit" id="resetFilter">Reset Filter</button>
 
     <script>
         document.getElementById('addCondition').addEventListener('click', function() {
@@ -90,7 +92,23 @@
             filterRows(); // Call the filter function
         });
     </script>
+    <script>
+        document.getElementById('resetFilter').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the form from submitting
+            console.log('resetting filter');
+            generateUsersTable(); // rest the table to original state
+            
+            // reset the filter form
+            document.getElementById('filterForm').reset();
 
+
+            // remove all conditions except the first one
+            const conditions = document.getElementsByClassName('condition');
+            while (conditions.length > 1) {
+                conditions[conditions.length - 1].remove();
+            }
+        });
+    </script>
 
      <!-- Delete user -->
     
