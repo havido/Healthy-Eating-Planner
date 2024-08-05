@@ -1,9 +1,87 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>UserDashboard</title>
+    <title>User Dashboard</title>
 </head>
 <body>
+    <!-- ===================================================================================== -->
+    <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
+    <script src="scripts.js"></script>
+
     <h1>Dashboard</h1>
-</body>
+    <br><hr>
+    
+    <!-- Atta  ==========================================================================================================-->
+<!-- =================================== Processed Food =======================================================================-->
+<!-- =================================== Processed Food =======================================================================-->
+<!-- =================================== Processed Food =======================================================================-->
+
+    <h2>Update Processed Food</h2>
+
+    <table id="processedFoodTable" border="1">
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Brand </th>
+                <th>Nutriton ID</th>
+                <th>User Description</th>
+                <th>Units</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <div id="updateSelectProcFoodMsg"></div>
+
+    <p> The user can update experience with processed foods they consume, making notes or describing their experiences <br> 
+        with the food. The user may also update the units for the processed food as well to use units they're most <br>
+        comfortable with for their progress. </p>
+
+    <br>
+    <p><b>Note:</b> Ensure exact product name and brand is inputted, no additional characters.</p>
+
+    <form id="updateUnits">
+        Product Name: <input type="text" id="productNameProcFood" placeholder="Enter exact product name" required> <br><br>
+        Brand: <input type="text" id="brandNameProcFood" placeholder="Enter exact brand name" required> <br><br>
+        <label for="pfUnit">New Unit:</label>
+        <input type="text" id="pfUnit" name="pfUnit" required>
+        <button type="submit">Update Unit</button>
+    </form>
+
+    <div id="updateUnitResultMsg"></div>
+
+    <br><br>
+    <form id="userDescriptUpdate">
+        Product Name: <input type="text" id="productNameProcFoodDesc" placeholder="Enter exact product name" required> <br><br>
+        Brand: <input type="text" id="brandNameProcFoodDesc" placeholder="Enter exact brand name" required> <br><br>
+        <label for="userDescript">New Description:</label>
+        <input type="text" id="userDescript" name="userDescript">
+        <button type="submit">Update Description</button>
+    </form>
+
+    <div id="updateDescriptionResultMsg"></div>
+
+    <br><hr><br>
+
+<!-- =================================== Processed Food =======================================================================-->
+<!-- =================================== Processed Food =======================================================================-->
+<!-- =================================== Processed Food =======================================================================-->
+<!-- Atta  ==========================================================================================================-->
+
+
+    <script>
+        document.getElementById('updateUnits').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            updateUnit();
+        });
+
+        document.getElementById('userDescriptUpdate').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            updateDescription(); 
+        });
+    </script>
+
+
+    </body>
 </html>
