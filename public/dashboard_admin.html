@@ -6,11 +6,13 @@
 <body>
     <!-- ===================================================================================== -->
     <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
-    <script src="dashboard_admin.js"></script>
+    <script src="scripts.js"></script>
 
     <h1>Admin Dashboard</h1>
      <!-- Element to display the message -->
      <p id="welcomeMsg"></p>
+
+    <br><hr><br> 
 
     <!-- Main table -->
      <h2>All Users</h2>
@@ -118,12 +120,108 @@
         <input type="text" id="deleteUserID" name="deleteUser">
         <button type="submit">Delete User</button>
     </form>
+
+
+    <!-- Atta  ==========================================================================================================-->
+<!-- =================================== Insert User  =======================================================================-->
+<!-- =================================== Insert User  =======================================================================-->
+<!-- =================================== Insert User  =======================================================================-->
+
+    <br><hr><br> 
+
+    <h2>Admin: Insert Regular Users</h2>
+
+    <p> <b>Note:</b> The admin can insert users from the application into this table, where <br>
+        they would be afforded privileges of a regular user. If duplicate there would <br>
+        be an error. For new entries, they must be first present in the user application <br>
+        table (2nd table), where all users are present to insert. </p>
+
+    <table id="insertRegularUserTable" border="1">
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Subscription Type</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <br>
+    <form id="insertRegularUserForm">
+        User ID (required): <input type="text" id="regularUserID" placeholder="Enter User ID" required> <br><br>
+        Subscription Type (required): <input type="text" id="subscriptionType" placeholder="Enter Subscription Type" required> <br><br>
+        <button type="submit">Insert Regular User</button>
+    </form>
+    <div id="insertRegularUserNewPart"></div>
+
+
+    <div id="regularUserTableInsertPresent"></div>
+
+    <br><br><br>
+    <p> <b>Note:</b> This is the table that admin may insert the user into if non-existent <br> and then insert into the regular table above. </p>    
+    <table id="user2Table" border="1">
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>Username</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Height (meters)</th>
+                <th>Weight (lbs)</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <div id="user2TableDisplayInsert"></div>
+
+    <br><br>
+    <form id="insertUser2Form">
+        User ID (required): <input type="text" id="userID" placeholder="Enter User ID" required> <br><br>
+        Username (required): <input type="text" id="username" placeholder="Enter Username" required> <br><br>
+        Age: <input type="number" id="age" placeholder="Enter Age"> <br><br>
+        Gender: <input type="text" id="gender" placeholder="Enter Gender"> <br><br>
+        Height: <input type="text" id="height" placeholder="Enter Height"> <br><br>
+        Weight: <input type="text" id="weight" placeholder="Enter Weight"> <br><br>
+        <button type="submit">Insert User</button>
+    </form>
+    <div id="insertUser2NewPart"></div>
+
+
+
+    <br><hr><br>
+
+    <!-- =================================== Insert User  =======================================================================-->
+    <!-- =================================== Insert User  =======================================================================-->
+    <!-- =================================== Insert User  =======================================================================-->
+    <!-- Atta  ========================================================================================================== !!!!!!!!!!!!!--> 
+
+
+
+
     <script>
         // Attach the delete function to the form submit event
         document.getElementById('deleteUserForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent the form from submitting
             deleteUser(); // Call the login function
         });
+
+
+        // Atta: Functions:
+        document.getElementById('insertUser2Form').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            insertUser2toTable(); 
+        });
+
+        document.getElementById('insertRegularUserForm').addEventListener('submit', function(event) {
+            event.preventDefault(); 
+            insertRegularUsertoTable(); 
+        });
+
+
+
     </script>
 
 
