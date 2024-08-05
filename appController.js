@@ -122,7 +122,7 @@ router.get('/get-user-2', async (req, res) => {
     }
 });
 
-
+// Deaks with the post for insert functionality part.
 router.post("/insert-user-2", async (req, res) => {
     const { userID, username, age, gender, height, weight } = req.body;
     
@@ -135,12 +135,35 @@ router.post("/insert-user-2", async (req, res) => {
     }
 });
 
+        // ----------------- Dealing with now instead of the regular user stuff. ------------------
+
+// Actual regular user table in this case.
+router.get('/get-regular-user', async (req, res) => {
+    try {
+        const tableContent = await appService.fetchTableFromDb('RegularUser');
+        res.json({ data: tableContent });
+    } catch (error) {
+        res.status(500).json({ success: false });
+    }
+});
+
+router.post("/insert-regular-user", async (req, res) => {
+    const { userID, subscriptionType } = req.body;
+
+    const insertResult = await appService.insertIntoRegularUserTable('RegularUser', userID, subscriptionType);
+
+    if (insertResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+});
+
 // ======================= Insert Proc Meal Function =================================
 // ======================= Insert Proc Meal Function =================================
 // ======================= Insert Proc Meal Function =================================
 // ======================= Insert Proc Meal Function ================================= !!!!!
 
-// Insert operation above.
 
 router.get('/check-db-connection', async (req, res) => {
     const isConnect = await appService.testOracleConnection();
