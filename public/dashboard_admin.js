@@ -116,6 +116,19 @@ async function deleteUser() {
 	userIDElement.value = '';
 }
 
+async function filterRows() {
+	const conditions = [];
+	document.querySelectorAll('.condition').forEach(condition => {
+		const attribute = condition.querySelector('.attribute').value;
+		const value = condition.querySelector('.value').value;
+		const logical = condition.querySelector('.logical').value;
+		if (value === '' || value == 'N/A') return; // Skip empty values
+		conditions.push(`${attribute} = "${value}" ${logical}`);
+	});
+	const query = conditions.join(' ').replace(/ (AND|OR) $/, ''); // Remove trailing AND/OR
+	console.log(query); // Replace with actual query execution	
+}
+
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
 // Add or remove event listeners based on the desired functionalities.
