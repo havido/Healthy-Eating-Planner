@@ -37,6 +37,105 @@ async function checkDbConnection() {
 }
 
 
+// Projection
+async function fetchAllDBTables() {
+
+    const tableSelect = document.getElementById('tableSelect');
+    const response = await fetch('/tables', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const tables = responseData.data;
+    console.log(tables);
+    tableSelect.innerHTML = '';
+
+    tables.forEach(table => {
+        const option = document.createElement('option');
+        option.value = table;
+        option.textContent = table;
+        tableSelect.appendChild(option);
+    });
+
+    const option = document.createElement('option');
+    option.value = '----';
+    option.textContent = '----';
+    option.selected = true;
+    tableSelect.prepend(option);
+
+
+}
+
+async function updateAttributes() {
+
+    const table = document.getElementById('tableSelect').value;
+    const attributesDiv = document.getElementById('attributesCheckboxes');
+    if (table === '----') {
+        attributesDiv.innerHTML = '';
+        return;
+    }
+
+    const response = await fetch(`/attributes?table=${table}`, {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const attributes = responseData.data;
+
+    console.log(attributes);
+
+    attributesDiv.innerHTML = '';
+
+    attributes.forEach(attr => {
+        const label = document.createElement('label');
+        label.textContent = attr;
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.name = 'attributes';
+        checkbox.value = attr;
+
+        attributesDiv.appendChild(checkbox);
+        attributesDiv.appendChild(label);
+        attributesDiv.appendChild(document.createElement('br'));
+    });
+}
+
+
+async function fetchProjection() {
+    const table = document.getElementById('tableSelect').value;
+    const attributes = Array.from(document.querySelectorAll('input[name="attributes"]:checked'))
+        .map(cb => cb.value);
+
+    const response = await fetch(`/projection?table=${table}&attributes=${attributes.join(',')}`, {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const projectionTable = document.getElementById('projection');
+    projectionTable.innerHTML = '';
+
+    const headers = attributes;
+    const data = responseData.data;
+
+    // Create table headers
+    const headerRow = projectionTable.insertRow();
+    headers.forEach(header => {
+        const th = document.createElement('th');
+        th.textContent = header;
+        headerRow.appendChild(th);
+    });
+
+    // Create table rows
+    data.forEach(row => {
+        const tr = projectionTable.insertRow();
+        row.forEach(cell => {
+            const td = tr.insertCell();
+            td.textContent = cell;
+        });
+    });
+}
+
 // ======================= Update Processed Food Function =================================
 // ======================= Update Processed Food Function =================================
 // ======================= Update Processed Food Function =================================
@@ -403,7 +502,7 @@ window.onload = function () {
     }
 
     if (currentPath === '/dashboard_admin.html') {
-
+        fetchAllDBTables();
 
         // Filter form
         document.getElementById('resetFilter').addEventListener('click', function (event) {
