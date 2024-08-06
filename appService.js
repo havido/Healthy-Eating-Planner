@@ -294,6 +294,52 @@ async function filterUserTablesUsingAttrs(condition_attrs) {
     });
 }
 
+async function fetchTablesFromDB() {
+    return await withOracleDB(async (connection) => {
+
+        var result = ''
+        try {
+            result = await connection.execute('SELECT table_name FROM user_tables'.trim());
+        } catch (error) {
+            console.log('Error fetching tables:', error);
+            return ['Error1'];
+        }
+        // SELECT table_name
+        // FROM information_schema.tables
+        // WHERE table_schema = 'public'
+        const z = result.rows.flatMap(row => row);
+        return z
+    }).catch(() => {
+        return ['Error2'];
+    });
+}
+
+async function getAttributes(table) {
+    return await withOracleDB(async (connection) => {
+        const q = "SELECT * FROM " + table;
+        const result = await connection.execute(q);
+        const zz = result.metaData.map(row => row.name);
+        return zz;
+
+    }).catch(() => {
+        return ['Error'];
+    });
+}
+
+async function getProjection(table, attributes) {
+    return await withOracleDB(async (connection) => {
+        const columns = attributes.length > 0 ? attributes.join(', ') : '*';
+        const result = await connection.execute(`
+            SELECT ${columns}
+            FROM ${table}
+        `);
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
+
+
 module.exports = {
     testOracleConnection,
     fetchTableFromDb,
@@ -310,5 +356,9 @@ module.exports = {
     // ==============================
 
     // Insert user: ==================
-    insertIntoRegularUserTable
+    insertIntoRegularUserTable,
+
+    fetchTablesFromDB,
+    getAttributes,
+    getProjection
 };
