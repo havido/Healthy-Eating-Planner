@@ -41,47 +41,21 @@
     <br>
     <p><b>Note:</b> Ensure exact product name and brand is inputted, no additional characters.</p>
 
-    <form id="updateUnits">
-        Product Name: <input type="text" id="productNameProcFood" placeholder="Enter exact product name" required> <br><br>
-        Brand: <input type="text" id="brandNameProcFood" placeholder="Enter exact brand name" required> <br><br>
+    <form id="updateProceedsFood">
+        Product Name (required): <input type="text" id="productNameProcFood" placeholder="Enter exact product name" required> <br><br>
+        
+        Brand (required): <input type="text" id="brandNameProcFood" placeholder="Enter exact brand name" required> <br><br>
+        
         <label for="pfUnit">New Unit:</label>
-        <input type="text" id="pfUnit" name="pfUnit" required>
-        <button type="submit">Update Unit</button>
-    </form>
-
-    <div id="updateUnitResultMsg"></div>
-
-    <br><br>
-    <form id="userDescriptUpdate">
-        Product Name: <input type="text" id="productNameProcFoodDesc" placeholder="Enter exact product name" required> <br><br>
-        Brand: <input type="text" id="brandNameProcFoodDesc" placeholder="Enter exact brand name" required> <br><br>
+        <input type="text" id="pfUnit" name="pfUnit">
+        <br>
         <label for="userDescript">New Description:</label>
         <input type="text" id="userDescript" name="userDescript">
-        <button type="submit">Update Description</button>
+        <br>
+        <button type="submit">Update</button>
     </form>
 
-    <div id="updateDescriptionResultMsg"></div>
-
-    <br><hr><br>
-
-<!-- =================================== Processed Food =======================================================================-->
-<!-- =================================== Processed Food =======================================================================-->
-<!-- =================================== Processed Food =======================================================================-->
-<!-- Atta  ==========================================================================================================-->
-
-
-    <script>
-        document.getElementById('updateUnits').addEventListener('submit', function(event) {
-            event.preventDefault(); 
-            updateUnit();
-        });
-
-        document.getElementById('userDescriptUpdate').addEventListener('submit', function(event) {
-            event.preventDefault(); 
-            updateDescription(); 
-        });
-    </script>
-
+    <div id="updateProcessedFoodResultMsg"></div>
 
     </body>
 </html>

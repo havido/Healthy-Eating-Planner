@@ -40,19 +40,36 @@ function generateQuery(tableName, selected_attr, condition_dict) {
 // ======================================= Update Food =================================================
 // ======================================= Update Food =================================================
 
-async function updateDescription(tableName, productName, brandName, newDescription) {
+async function updateProcessedFood(productName, brandName, newUnit, newDescription) {
     return await withOracleDB(async (connection) => {
         try {
 
-            if (newDescription === '') {
-                newDescription = null;
+            var q_ = 'UPDATE PROCESSEDFOOD SET '
+            var arr = []
+
+            if (newUnit !== '') {
+                q_ += 'pfUnit = :newUnit '
+                arr.push(newUnit)
+            }
+            if (newDescription !== '') {
+                q_ += ', userDescript = :newDescription '
+                arr.push(newDescription)
             }
 
+            q_ += 'WHERE procName = :productName AND brand = :brandName'
+            arr.push(productName)
+            arr.push(brandName)
+
+            q_ = q_.trim()
+            console.log(q_)
+
             const result = await connection.execute(
-                'UPDATE ' + tableName + ' SET userDescript = :newDescription WHERE procName = :productName AND brand = :brandName',
-                [newDescription, productName, brandName],
+                q_,
+                arr,
                 { autoCommit: true }
             );
+
+
 
             return result.rowsAffected && result.rowsAffected > 0;
         } catch (error) {
@@ -61,21 +78,7 @@ async function updateDescription(tableName, productName, brandName, newDescripti
     });
 }
 
-async function updateUnit(tableName, productName, brandName, newUnit) {
-    return await withOracleDB(async (connection) => {
-        try {
-            const result = await connection.execute(
-                ' UPDATE ' + tableName + ' SET pfUnit = :newUnit WHERE procName = :productName AND brand = :brandName',
-                [newUnit, productName, brandName],
-                { autoCommit: true }
-            );
 
-            return result.rowsAffected && result.rowsAffected > 0;
-        } catch (error) {
-            return false;
-        }
-    });
-}
 
 
 // ======================================= Update Food =================================================
@@ -302,8 +305,8 @@ module.exports = {
     filterUserTablesUsingAttrs,
 
     // Proc Food: ==============================
-    updateDescription,
-    updateUnit,
+    updateProcessedFood,
+
     // ==============================
 
     // Insert user: ==================

@@ -64,9 +64,6 @@ router.post('/user-info', async (req, res) => {
 
 
 // ======================================= Update Food =================================================
-// ======================================= Update Food =================================================
-// ======================================= Update Food =================================================
-// ======================================= Update Food =================================================
 
 router.get('/get-processed-foods', async (req, res) => {
     try {
@@ -78,19 +75,9 @@ router.get('/get-processed-foods', async (req, res) => {
     }
 });
 
-router.post("/update-description", async (req, res) => {
-    const { productName, brand, description } = req.body;
-    const updateResult = await appService.updateDescription('ProcessedFood', productName, brand, description);
-    if (updateResult) {
-        res.json({ success: true });
-    } else {
-        res.status(500).json({ success: false });
-    }
-});
-
-router.post("/update-unit", async (req, res) => {
-    const { productName, brand, unit } = req.body;
-    const updateResult = await appService.updateUnit('ProcessedFood', productName, brand, unit);
+router.post("/update-processed-food", async (req, res) => {
+    const { productName, brand, unit, description } = req.body;
+    const updateResult = await appService.updateProcessedFood(productName, brand, unit, description);
     if (updateResult) {
         res.json({ success: true });
     } else {
@@ -104,7 +91,7 @@ router.post("/insert-regular-user", async (req, res) => {
 
     const { userID, subscriptionType, username, age, gender, height, weight } = req.body;
 
-    const insertResult = await appService.insertIntoRegularUserTable(userID,username, subscriptionType, age, gender, height, weight);
+    const insertResult = await appService.insertIntoRegularUserTable(userID, username, subscriptionType, age, gender, height, weight);
 
     if (insertResult) {
         res.json({ success: true });

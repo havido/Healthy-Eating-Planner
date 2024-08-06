@@ -15,25 +15,25 @@
 
 // This function checks the database connection and updates its status on the frontend.
 async function checkDbConnection() {
-    const statusElem = document.getElementById('dbStatus');
-    const loadingGifElem = document.getElementById('loadingGif');
+    // const statusElem = document.getElementById('dbStatus');
+    // const loadingGifElem = document.getElementById('loadingGif');
 
-    const response = await fetch('/check-db-connection', {
-        method: "GET"
-    });
+    // const response = await fetch('/check-db-connection', {
+    //     method: "GET"
+    // });
 
-    // Hide the loading GIF once the response is received.
-    //loadingGifElem.style.display = 'none';
-    // Display the statusElem's text in the placeholder.
-    //statusElem.style.display = 'inline';
+    // // Hide the loading GIF once the response is received.
+    // //loadingGifElem.style.display = 'none';
+    // // Display the statusElem's text in the placeholder.
+    // //statusElem.style.display = 'inline';
 
-    response.text()
-        .then((text) => {
-            statusElem.textContent = text;
-        })
-        .catch((error) => {
-            statusElem.textContent = 'connection timed out';  // Adjust error handling if required.
-        });
+    // response.text()
+    //     .then((text) => {
+    //         statusElem.textContent = text;
+    //     })
+    //     .catch((error) => {
+    //         statusElem.textContent = 'connection timed out';  // Adjust error handling if required.
+    //     });
 }
 
 
@@ -69,42 +69,21 @@ async function fetchAndDisplayProcessedFoods() {
 }
 
 // Update description
-async function updateDescription(event) {
-    const productName = document.getElementById('productNameProcFoodDesc').value;
-    const brand = document.getElementById('brandNameProcFoodDesc').value;
-    const description = document.getElementById('userDescript').value;
-
-    const response = await fetch('/update-description', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            productName: productName,
-            brand: brand,
-            description: description
-        })
-    });
-
-    const responseData = await response.json();
-    const messageElement = document.getElementById('updateDescriptionResultMsg');
-
-    if (responseData.success) {
-        messageElement.textContent = "Description updated successfully!";
-        fetchAndDisplayProcessedFoods();
-    } else {
-        messageElement.textContent = "Error updating description!";
-    }
-}
+async function updateProcessedFood(event) {
 
 
-// Update the units (This works now as well.)
-async function updateUnit(event) {
+
     const productName = document.getElementById('productNameProcFood').value;
     const brand = document.getElementById('brandNameProcFood').value;
     const unit = document.getElementById('pfUnit').value;
+    const description = document.getElementById('userDescript').value;
 
-    const response = await fetch('/update-unit', {
+    if (unit === '' && description === '') {
+        alert('Please enter a valid unit or description to update!');
+        return
+    }
+
+    const response = await fetch('/update-processed-food', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -112,27 +91,21 @@ async function updateUnit(event) {
         body: JSON.stringify({
             productName: productName,
             brand: brand,
-            unit: unit
+            unit: unit,
+            description: description,
         })
     });
 
     const responseData = await response.json();
-    const messageElement = document.getElementById('updateUnitResultMsg');
 
+    updateProcessedFoodResultMsg = document.getElementById('updateProcessedFoodResultMsg');
     if (responseData.success) {
-        messageElement.textContent = "Unit updated successfully!";
+        updateProcessedFoodResultMsg.textContent = "Description updated successfully!";
         fetchAndDisplayProcessedFoods();
     } else {
-        messageElement.textContent = "Error updating unit!";
+        updateProcessedFoodResultMsg.textContent = "Error updating description!";
     }
 }
-
-
-// ======================= Update Processed Food Function =================================
-// ======================= Update Processed Food Function =================================
-// ======================= Update Processed Food Function =================================
-// ======================= Update Processed Food Function ================================= !!!!!
-
 
 
 // ---------------- Regular User Part ------------------------
@@ -189,13 +162,12 @@ async function insertRegularUsertoTable(event) {
 }
 
 
-// ======================= Abdul Functions =================================
-// ======================= Abdul Functions =================================
-// ======================= Abdul Functions =================================
-// ======================= Abdul Functions ================================= 
-
 // Retrieve the userID from local storage
-const g_userID = localStorage.getItem('LocalStorage-userID').trim();
+const g_userID = localStorage.getItem('LocalStorage-userID')
+if (g_userID === null || g_userID === '' || g_userID === undefined) {
+    alert('Please login first!');
+    window.location.href = '/index.html';
+};
 
 // Logs in the user by sending a request to the backend with the username
 async function getUserInfo() {
@@ -406,13 +378,6 @@ async function filterRows() {
 }
 
 
-
-// ======================= Abdul Functions =================================
-// ======================= Abdul Functions =================================
-// ======================= Abdul Functions =================================
-// ======================= Abdul Functions ================================= !!!!!
-
-
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
 // Add or remove event listeners based on the desired functionalities.
@@ -420,14 +385,23 @@ window.onload = function () {
     checkDbConnection();
     const currentPath = window.location.pathname;
 
+    if (g_userID === null || g_userID === '' || g_userID === undefined) {
+        alert('Please login first!');
+        window.location.href = '/index.html';
+    }
+
     if (currentPath === '/dashboard.html') {
-        document.getElementById('updateDescription').addEventListener('submit', updateDescription);
-        document.getElementById('updateUnits').addEventListener('submit', updateUnit);
-        document.getElementById('getUserInfo').addEventListener('submit', getUserInfo);
+        document.getElementById('updateProceedsFood').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent the form from submitting    
+            updateProcessedFood();
+        }); // GOOD
+
         fetchAndDisplayProcessedFoods();
     }
 
     if (currentPath === '/dashboard_admin.html') {
+
+
         // Filter form
         document.getElementById('resetFilter').addEventListener('click', function (event) {
             event.preventDefault(); // Prevent the form from submitting
