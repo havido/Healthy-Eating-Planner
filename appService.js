@@ -274,14 +274,14 @@ async function filterUserTablesUsingAttrs(condition_attrs) {
 
         var q = `
         SELECT *
-            FROM USER2 
+        FROM USER2 
         LEFT JOIN USER1 ON USER2.HEIGHT = USER1.HEIGHT AND USER1.WEIGHTS = USER2.WEIGHTS 
         LEFT JOIN ADMINAPP ON USER2.USERID = ADMINAPP.USERID 
         LEFT JOIN REGULARUSER ON USER2.USERID = REGULARUSER.USERID
-            `.trim();
+        `.trim();
 
         if (condition_attrs) {
-            q += ` WHERE` + condition_attrs.trim();
+            q += ` WHERE ` + condition_attrs.trim();
         }
 
         console.log(q);
