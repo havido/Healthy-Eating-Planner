@@ -170,7 +170,7 @@ if (g_userID === null || g_userID === '' || g_userID === undefined) {
 };
 
 // Logs in the user by sending a request to the backend with the username
-async function getUserInfo() {
+async function setUserGreeting() {
 
 
     const response = await fetch('/user-info', {
@@ -389,6 +389,9 @@ window.onload = function () {
         alert('Please login first!');
         window.location.href = '/index.html';
     }
+
+    // for grating the user info
+    setUserGreeting();
 
     if (currentPath === '/dashboard.html') {
         document.getElementById('updateProceedsFood').addEventListener('submit', function (event) {
