@@ -143,5 +143,39 @@
     <div id="user2TableDisplayInsert"></div>
 
 
+
+
+       <!-- Projection -->
+       <br><hr>
+       <h2>Projection</h2>
+       <table id="projection" border="1">
+           <!-- results -->
+       </table>
+       <div>
+           <label for="tableSelect">Choose a table:</label>
+           <select id="tableSelect" onchange="updateAttributes()">
+               <!-- <select id="tableSelect"> -->
+               <!-- <option value="INGREDIENT">INGREDIENT</option> -->
+               <!-- dummy option -->
+           </select>
+       </div>
+       <div>
+           <label>Choose attributes:</label>
+           <div id="attributesCheckboxes">
+               <!-- something -->
+           </div>
+       </div>
+       
+       <button onclick="fetchProjection()">View Data</button>
+   
+       <div id="resetResultMsg"></div>
+   
+       <!-- End Projection -->
+   
+       <br>
+       <hr><br> <!-- ========================================================================= -->
+
+
+
     </body>
 </html>
