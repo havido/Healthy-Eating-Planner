@@ -12,6 +12,55 @@ router.use(adminRouter);
 // API endpoints
 // Modify or extend these routes based on your project's needs.
 
+
+// Projection
+
+router.get('/tables', async (req, res) => {
+    const tables = await appService.fetchTablesFromDB();
+    if (tables) {
+        res.json({
+            success: true,
+            data: tables
+        });
+    } else {
+        res.status(500).json({
+            success: false
+        });
+    }
+});
+
+router.get('/attributes', async (req, res) => {
+    const table = req.query.table;
+    const attributes = await appService.getAttributes(table);
+    if (attributes) {
+        res.json({
+            success: true,
+            data: attributes
+        });
+    } else {
+        res.json({
+            success: false
+        })
+    }
+});
+
+router.get('/projection', async (req, res) => {
+    const table = req.query.table;
+    const attributes = req.query.attributes ? req.query.attributes.split(',') : [];
+    const projection = await appService.getProjection(table, attributes);
+    if (projection) {
+        res.json({
+            success: true,
+            data: projection
+        })
+    } else {
+        res.json({
+            success: false
+        })
+    }
+});
+
+
 router.post("/login", async (req, res) => {
     if (!req.body) {
         res.status(500).json({ success: false });
