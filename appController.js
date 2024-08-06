@@ -64,9 +64,6 @@ router.post('/user-info', async (req, res) => {
 
 
 // ======================================= Update Food =================================================
-// ======================================= Update Food =================================================
-// ======================================= Update Food =================================================
-// ======================================= Update Food =================================================
 
 router.get('/get-processed-foods', async (req, res) => {
     try {
@@ -78,55 +75,10 @@ router.get('/get-processed-foods', async (req, res) => {
     }
 });
 
-router.post("/update-description", async (req, res) => {
-    const { productName, brand, description } = req.body;
-    const updateResult = await appService.updateDescription('ProcessedFood', productName, brand, description);
+router.post("/update-processed-food", async (req, res) => {
+    const { productName, brand, unit, description } = req.body;
+    const updateResult = await appService.updateProcessedFood(productName, brand, unit, description);
     if (updateResult) {
-        res.json({ success: true });
-    } else {
-        res.status(500).json({ success: false });
-    }
-});
-
-router.post("/update-unit", async (req, res) => {
-    const { productName, brand, unit } = req.body;
-    const updateResult = await appService.updateUnit('ProcessedFood', productName, brand, unit);
-    if (updateResult) {
-        res.json({ success: true });
-    } else {
-        res.status(500).json({ success: false });
-    }
-});
-
-// ======================================= Update Food =================================================
-// ======================================= Update Food =================================================
-// ======================================= Update Food =================================================
-// ======================================= Update Food =================================================
-
-
-
-// ======================= Insert User Function =================================
-// ======================= Insert User Function =================================
-// ======================= Insert User Function =================================
-// ======================= Insert User Function =================================
-
-// Route to get data from User2 table
-router.get('/get-user-2', async (req, res) => {
-    try {
-        const tableContent = await appService.fetchTableFromDb('User2');
-        res.json({ data: tableContent });
-    } catch (error) {
-        res.status(500).json({ success: false });
-    }
-});
-
-// Deaks with the post for insert functionality part.
-router.post("/insert-user-2", async (req, res) => {
-    const { userID, username, age, gender, height, weight } = req.body;
-
-    const insertResult = await appService.insertIntoUser2Table('User2', userID, username, age, gender, height, weight);
-
-    if (insertResult) {
         res.json({ success: true });
     } else {
         res.status(500).json({ success: false });
@@ -135,20 +87,11 @@ router.post("/insert-user-2", async (req, res) => {
 
 // ----------------- Dealing with now instead of the regular user stuff. ------------------
 
-// Actual regular user table in this case.
-router.get('/get-regular-user', async (req, res) => {
-    try {
-        const tableContent = await appService.fetchTableFromDb('RegularUser');
-        res.json({ data: tableContent });
-    } catch (error) {
-        res.status(500).json({ success: false });
-    }
-});
-
 router.post("/insert-regular-user", async (req, res) => {
-    const { userID, subscriptionType } = req.body;
 
-    const insertResult = await appService.insertIntoRegularUserTable('RegularUser', userID, subscriptionType);
+    const { userID, subscriptionType, username, age, gender, height, weight } = req.body;
+
+    const insertResult = await appService.insertIntoRegularUserTable(userID, username, subscriptionType, age, gender, height, weight);
 
     if (insertResult) {
         res.json({ success: true });
@@ -171,60 +114,5 @@ router.get('/check-db-connection', async (req, res) => {
         res.send('unable to connect');
     }
 });
-
-router.get('/demotable', async (req, res) => {
-
-    // TODO check that the name of the table not null
-    const tableContent = await appService.fetchTableFromDb('DEMOTABLE');
-    res.json({ data: tableContent });
-});
-
-router.post("/initiate-demotable", async (req, res) => {
-    // TODO check that the name of the table not null
-    const initiateResult = await appService.initiateTable('DEMOTABLE');
-    if (initiateResult) {
-        res.json({ success: true });
-    } else {
-        res.status(500).json({ success: false });
-    }
-});
-
-router.post("/insert-demotable", async (req, res) => {
-    // TODO check that the name of the table not null
-    const { id, name } = req.body;
-    const insertResult = await appService.insertIntoTable('DEMOTABLE', id, name);
-    if (insertResult) {
-        res.json({ success: true });
-    } else {
-        res.status(500).json({ success: false });
-    }
-});
-
-router.post("/update-name-demotable", async (req, res) => {
-    // TODO check that the name of the table not null
-    const { oldName, newName } = req.body;
-    const updateResult = await appService.updateNameTable('DEMOTABLE', oldName, newName);
-    if (updateResult) {
-        res.json({ success: true });
-    } else {
-        res.status(500).json({ success: false });
-    }
-});
-
-router.get('/count-demotable', async (req, res) => {
-    const tableCount = await appService.countTable('DEMOTABLE');
-    if (tableCount >= 0) {
-        res.json({
-            success: true,
-            count: tableCount
-        });
-    } else {
-        res.status(500).json({
-            success: false,
-            count: tableCount
-        });
-    }
-});
-
 
 module.exports = router;

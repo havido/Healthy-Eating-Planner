@@ -4,13 +4,26 @@
     <title>AdminViewDashboard</title>
 </head>
 <body>
+
+    <a href="index.html" onclick="resetLocalStorage()">Logout</a>
+    <script>
+    function resetLocalStorage() {
+        localStorage.clear();
+        if (g_userID) {
+            g_userID = null;
+        }
+    }
+    </script>
+    
     <!-- ===================================================================================== -->
     <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
-    <script src="dashboard_admin.js"></script>
+    <script src="scripts.js"></script>
 
     <h1>Admin Dashboard</h1>
      <!-- Element to display the message -->
      <p id="welcomeMsg"></p>
+
+    <br><hr><br> 
 
     <!-- Main table -->
      <h2>All Users</h2>
@@ -27,7 +40,7 @@
      </table> 
 
     <!-- filter rows -->
-        
+    <br><hr> 
     <h2>Filter Rows</h2>
     <form id="filterForm">
         <div id="conditions">
@@ -92,40 +105,42 @@
             filterRows(); // Call the filter function
         });
     </script>
-    <script>
-        document.getElementById('resetFilter').addEventListener('click', function(event) {
-            event.preventDefault(); // Prevent the form from submitting
-            console.log('resetting filter');
-            generateUsersTable(); // rest the table to original state
-            
-            // reset the filter form
-            document.getElementById('filterForm').reset();
 
-
-            // remove all conditions except the first one
-            const conditions = document.getElementsByClassName('condition');
-            while (conditions.length > 1) {
-                conditions[conditions.length - 1].remove();
-            }
-        });
-    </script>
 
      <!-- Delete user -->
-    
+     <br><hr> 
     <h2>Delete User</h2>
     <form id="deleteUserForm">
         <label for="deleteUser">User ID:</label>
         <input type="text" id="deleteUserID" name="deleteUser">
         <button type="submit">Delete User</button>
     </form>
-    <script>
-        // Attach the delete function to the form submit event
-        document.getElementById('deleteUserForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting
-            deleteUser(); // Call the login function
-        });
-    </script>
 
+
+    <!-- Atta  ==========================================================================================================-->
+<!-- =================================== Insert User  =======================================================================-->
+<!-- =================================== Insert User  =======================================================================-->
+<!-- =================================== Insert User  =======================================================================-->
+
+    <br><hr>
+
+    <h2>Admin: Insert Regular Users</h2>
+
+    <form id="insertRegularUserForm">
+
+        User ID (required): <input type="text" id="insertRegularUserID" placeholder="Enter User ID" required> <br><br>
+        Username (required): <input type="text" id="insertUsername" placeholder="Enter Username" required> <br><br>
+        Subscription Type (required): <input type="text" id="subscriptionType" placeholder="Enter Subscription Type" required> <br><br>
+        Age: <input type="number" id="age" placeholder="Enter Age"> <br><br>
+        Gender: <input type="text" id="gender" placeholder="Enter Gender"> <br><br>
+        Height: <input type="text" id="height" placeholder="Enter Height"> <br><br>
+        Weight: <input type="text" id="weight" placeholder="Enter Weight"> <br><br>
+        <button type="submit">Insert Regular User</button>
+    </form>
+    <div id="insertUser2NewPart"></div>
+    <div id="insertRegularUserNewPart"></div>
+    <div id="regularUserTableInsertPresent"></div> 
+    <div id="user2TableDisplayInsert"></div>
 
 
     </body>

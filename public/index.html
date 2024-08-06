@@ -2,242 +2,27 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- This meta tag ensures that the website renders correctly across different device sizes, enhancing mobile responsiveness. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Link to the external CSS stylesheet. Uncomment if you wish to customize or add styling. -->
-    <!-- <link rel="stylesheet" href="styles.css">   -->
-
-    <title>Database Application</title>
+    <title>Login Page</title>
 </head>
+
 <body>
-    <!-- Add a link to the login page -->
-    <h2><a href="login.html">Login</a></h2>
-    
-<!-- Atta  ==========================================================================================================-->
-<!-- =================================== Processed Food =======================================================================-->
-<!-- =================================== Processed Food =======================================================================-->
-<!-- =================================== Processed Food =======================================================================-->
-
-    <br><hr><br>
-
-    <h2>Update Processed Food</h2>
-
-    <table id="processedFoodTable" border="1">
-        <thead>
-            <tr>
-                <th>Product Name</th>
-                <th>Brand </th>
-                <th>Nutriton ID</th>
-                <th>User Description</th>
-                <th>Units</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-
-    <div id="updateSelectProcFoodMsg"></div>
-
-    <p> The user can update experience with processed foods they consume, making notes or describing their experiences <br> 
-        with the food. The user may also update the units for the processed food as well to use units they're most <br>
-        comfortable with for their progress. </p>
-
-    <br>
-    <p><b>Note:</b> Ensure exact product name and brand is inputted, no additional characters.</p>
-
-    <form id="updateUnits">
-        Product Name: <input type="text" id="productNameProcFood" placeholder="Enter exact product name" required> <br><br>
-        Brand: <input type="text" id="brandNameProcFood" placeholder="Enter exact brand name" required> <br><br>
-        <label for="pfUnit">New Unit:</label>
-        <input type="text" id="pfUnit" name="pfUnit" required>
-        <button type="submit">Update Unit</button>
+    <h1>Login</h1>
+    <form id="loginForm">
+        <label for="username">Username:</label>
+        <input type="text" id="userID" name="userID" required>
+        <button type="submit">Login</button>
     </form>
 
-    <div id="updateUnitResultMsg"></div>
+    <div id="loginResultMsg"></div>
 
-    <br><br>
-    <form id="userDescriptUpdate">
-        Product Name: <input type="text" id="productNameProcFoodDesc" placeholder="Enter exact product name" required> <br><br>
-        Brand: <input type="text" id="brandNameProcFoodDesc" placeholder="Enter exact brand name" required> <br><br>
-        <label for="userDescript">New Description:</label>
-        <input type="text" id="userDescript" name="userDescript">
-        <button type="submit">Update Description</button>
-    </form>
-
-    <div id="updateDescriptionResultMsg"></div>
-
-    <br><hr><br>
-
-<!-- =================================== Processed Food =======================================================================-->
-<!-- =================================== Processed Food =======================================================================-->
-<!-- =================================== Processed Food =======================================================================-->
-<!-- Atta  ==========================================================================================================-->
-
-
-<!-- Atta  ==========================================================================================================-->
-<!-- =================================== Insert User  =======================================================================-->
-<!-- =================================== Insert User  =======================================================================-->
-<!-- =================================== Insert User  =======================================================================-->
-
-    <br><hr><br> 
-
-    <h2>Admin: Insert Regular Users</h2>
-
-    <p> <b>Note:</b> The admin can insert users from the application into this table, where <br>
-        they would be afforded privileges of a regular user. If duplicate there would <br>
-        be an error. For new entries, they must be first present in the user application <br>
-        table (2nd table), where all users are present to insert. </p>
-
-    <table id="insertRegularUserTable" border="1">
-        <thead>
-            <tr>
-                <th>User ID</th>
-                <th>Subscription Type</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-
-    <br>
-    <form id="insertRegularUserForm">
-        User ID (required): <input type="text" id="regularUserID" placeholder="Enter User ID" required> <br><br>
-        Subscription Type (required): <input type="text" id="subscriptionType" placeholder="Enter Subscription Type" required> <br><br>
-        <button type="submit">Insert Regular User</button>
-    </form>
-    <div id="insertRegularUserNewPart"></div>
-
-
-    <div id="regularUserTableInsertPresent"></div>
-
-    <br><br><br>
-    <p> <b>Note:</b> This is the table that admin may insert the user into if non-existent <br> and then insert into the regular table above. </p>    
-    <table id="user2Table" border="1">
-        <thead>
-            <tr>
-                <th>User ID</th>
-                <th>Username</th>
-                <th>Age</th>
-                <th>Gender</th>
-                <th>Height (meters)</th>
-                <th>Weight (lbs)</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-
-    <div id="user2TableDisplayInsert"></div>
-
-    <br><br>
-    <form id="insertUser2Form">
-        User ID (required): <input type="text" id="userID" placeholder="Enter User ID" required> <br><br>
-        Username (required): <input type="text" id="username" placeholder="Enter Username" required> <br><br>
-        Age: <input type="number" id="age" placeholder="Enter Age"> <br><br>
-        Gender: <input type="text" id="gender" placeholder="Enter Gender"> <br><br>
-        Height: <input type="text" id="height" placeholder="Enter Height"> <br><br>
-        Weight: <input type="text" id="weight" placeholder="Enter Weight"> <br><br>
-        <button type="submit">Insert User</button>
-    </form>
-    <div id="insertUser2NewPart"></div>
-
-
-
-    <br><hr><br>
-
-    <!-- =================================== Insert User  =======================================================================-->
-    <!-- =================================== Insert User  =======================================================================-->
-    <!-- =================================== Insert User  =======================================================================-->
-    <!-- Atta  ========================================================================================================== !!!!!!!!!!!!!--> 
-
-
-    <br><hr><br> <!-- ========================================================================= -->
-
-
-    <!-- Show 'Demotable'. 
-        Data will be fetched and inserted here dynamically using JavaScript. -->
-    <h2>Show Demotable</h2>
-    <table id="demotable" border="1">
-        <thead>
-            <tr>
-                <!--Table head, need to be adjusted accordingly to align with your own.-->
-                <th>ID</th>
-                <th>Name</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-
-    <br><hr><br> <!-- ========================================================================= -->
-
-    <h2>Reset Demotable</h2>
-    <p>If you wish to reset the table press on the reset button. If this is the first time you're running this page, you MUST use reset</p>
-    <button id="resetDemotable"> reset </button> <br>
-    <!-- A placeholder to display messages related to the reset operation. -->
-    <div id="resetResultMsg"></div>
-
-    <br><hr><br> <!-- ========================================================================= -->
-
-    <h2> Insert Values into DemoTable </h2>
-    <form id="insertDemotable">
-        ID: <input type="number" id="insertId" placeholder="Enter ID" required> <br><br>
-        Name: <input type="text" id="insertName" placeholder="Enter Name" maxlength="20"> <br><br>
-
-        <button type="submit"> insert </button> <br>
-    </form>
-    <div id="insertResultMsg"></div>
-
-    <br><hr><br> <!-- ========================================================================= -->
-
-    <h2>Update Name in DemoTable</h2>
-    <p>The values are case sensitive and if you enter in the wrong case, the update statement will not do anything.</p>
-    <form id="updataNameDemotable">
-        Old Name: <input type="text" id="updateOldName" placeholder="Enter Old Name" required> <br><br>
-        New Name: <input type="text" id="updateNewName" placeholder="Enter New Name" maxlength="20"> <br><br>
-
-        <button type="submit"> update </button> <br>
-    </form>
-    <!-- A placeholder to display messages related to the update operation. -->
-    <div id="updateNameResultMsg"></div>
-
-    <br><hr><br> <!-- ========================================================================= -->
-
-    <h2>Count the Tuples in DemoTable</h2>
-    <button id="countDemotable"> count </button> <br><br>
-    <!-- A placeholder to display the count result. -->
-    <div id="countResultMsg"></div> <br>
-
-    <!-- ===================================================================================== -->
-    <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
-    <script src="scripts.js"></script>
-
+    <script src="login.js"></script>
     <script>
-
-        document.getElementById('updateUnits').addEventListener('submit', function(event) {
-            event.preventDefault(); 
-            updateUnit();
+        // Attach the login function to the form submit event
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the form from submitting
+            login(); // Call the login function
         });
-
-        document.getElementById('userDescriptUpdate').addEventListener('submit', function(event) {
-            event.preventDefault(); 
-            updateDescription(); 
-        });
-
-        document.getElementById('insertUser2Form').addEventListener('submit', function(event) {
-            event.preventDefault(); 
-            insertUser2toTable(); 
-        });
-
-        document.getElementById('insertRegularUserForm').addEventListener('submit', function(event) {
-            event.preventDefault(); 
-            insertRegularUsertoTable(); 
-        });
-
     </script>
-
-
-
 </body>
 </html>

@@ -40,19 +40,36 @@ function generateQuery(tableName, selected_attr, condition_dict) {
 // ======================================= Update Food =================================================
 // ======================================= Update Food =================================================
 
-async function updateDescription(tableName, productName, brandName, newDescription) {
+async function updateProcessedFood(productName, brandName, newUnit, newDescription) {
     return await withOracleDB(async (connection) => {
         try {
 
-            if (newDescription === '') {
-                newDescription = null;
+            var q_ = 'UPDATE PROCESSEDFOOD SET '
+            var arr = []
+
+            if (newUnit !== '') {
+                q_ += 'pfUnit = :newUnit '
+                arr.push(newUnit)
+            }
+            if (newDescription !== '') {
+                q_ += ', userDescript = :newDescription '
+                arr.push(newDescription)
             }
 
+            q_ += 'WHERE procName = :productName AND brand = :brandName'
+            arr.push(productName)
+            arr.push(brandName)
+
+            q_ = q_.trim()
+            console.log(q_)
+
             const result = await connection.execute(
-                'UPDATE ' + tableName + ' SET userDescript = :newDescription WHERE procName = :productName AND brand = :brandName',
-                [newDescription, productName, brandName],
+                q_,
+                arr,
                 { autoCommit: true }
             );
+
+
 
             return result.rowsAffected && result.rowsAffected > 0;
         } catch (error) {
@@ -61,60 +78,53 @@ async function updateDescription(tableName, productName, brandName, newDescripti
     });
 }
 
-async function updateUnit(tableName, productName, brandName, newUnit) {
-    return await withOracleDB(async (connection) => {
-        try {
-            const result = await connection.execute(
-                ' UPDATE ' + tableName + ' SET pfUnit = :newUnit WHERE procName = :productName AND brand = :brandName',
-                [newUnit, productName, brandName],
-                { autoCommit: true }
-            );
 
-            return result.rowsAffected && result.rowsAffected > 0;
-        } catch (error) {
+
+
+// ======================================= Update Food =================================================
+// ======================================= Update Food =================================================
+// ======================================= Update Food =================================================
+// ======================================= Update Food =================================================
+
+
+// ======================================= Insert User =================================================
+// ======================================= Insert User =================================================
+// ======================================= Insert User =================================================
+// ======================================= Insert User =================================================
+
+// This would be in regular user table
+async function insertIntoRegularUserTable(userID, username, subscriptionType, age, gender, height, weight) {
+    return await withOracleDB(async (connection) => {
+
+        // Validate if user already exists
+        const qq_ = `
+        SELECT * FROM USER2 WHERE USERID = '${userID}'
+        `.trim()
+        const isUser = await connection.execute(qq_);
+        if (isUser.rows && isUser.rows.length > 0) {
             return false;
         }
-    });
-}
 
-
-// ======================================= Update Food =================================================
-// ======================================= Update Food =================================================
-// ======================================= Update Food =================================================
-// ======================================= Update Food =================================================
-
-
-// ======================================= Insert User =================================================
-// ======================================= Insert User =================================================
-// ======================================= Insert User =================================================
-// ======================================= Insert User =================================================
-
-// This would be in user2 table
-async function insertIntoUser2Table(tableName, userID, username, age, gender, height, weight) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO ` + tableName + ` (userID, username, age, gender, height, weights) VALUES (:userID, :username, :age, :gender, :height, :weight)`,
+        const user2Result = await connection.execute(
+            `INSERT INTO USER2(userID, username, age, gender, height, weights) VALUES(: userID, : username, : age, : gender, : height, : weight)`,
             [userID, username, age, gender, height, weight],
             { autoCommit: true }
         );
 
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
+        if (user2Result.rowsAffected && user2Result.rowsAffected > 1) {
+            return false
+        }
 
-
-// This would be in regular user table
-async function insertIntoRegularUserTable(tableName, userID, subscriptionType) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `INSERT INTO ` + tableName + ` (userID, subscriptionType) VALUES (:userID, :subscriptionType)`,
+        const regularUserResult = await connection.execute(
+            `INSERT INTO REGULARUSER(userID, subscriptionType) VALUES(: userID, : subscriptionType)`,
             [userID, subscriptionType],
             { autoCommit: true }
         );
+        if (regularUserResult.rowsAffected && regularUserResult.rowsAffected > 1) {
+            return false
+        }
 
-        return result.rowsAffected && result.rowsAffected > 0;
+        return true;
     }).catch(() => {
         return false;
     });
@@ -197,41 +207,8 @@ async function fetchTableFromDb(tableName) {
     });
 }
 
-async function initiateTable(tableName) {
-    return await withOracleDB(async (connection) => {
-        try {
-            await connection.execute(`DROP TABLE DEMOTABLE`);
-        } catch (err) {
-            console.log('Table might not exist, proceeding to create...');
-        }
-        // TODO will have to read the attributes from the request
-        // but this feature might not be needed in the first palce
-        const result = await connection.execute(`
-            CREATE TABLE `+ tableName + ` (
-                id NUMBER PRIMARY KEY,
-                name VARCHAR2(20)
-            )
-        `);
-        return true;
-    }).catch(() => {
-        return false;
-    });
-}
 
-async function insertIntoTable(tableName, id, name) {
-    return await withOracleDB(async (connection) => {
-        // TODO will have to read the attributes from the request
-        const result = await connection.execute(
-            `INSERT INTO ` + tableName + ` (id, name) VALUES (:id, :name)`,
-            [id, name],
-            { autoCommit: true }
-        );
 
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
 
 async function readRowsWithValuesFromTable(tableName, selected_attr, condition_dict) {
     return await withOracleDB(async (connection) => {
@@ -281,10 +258,10 @@ async function joinAllUserTables() {
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(
             `SELECT *
-            FROM USER2 
-            LEFT JOIN USER1 ON USER2.HEIGHT=USER1.HEIGHT AND USER1.WEIGHTS=USER2.WEIGHTS
-            LEFT JOIN ADMINAPP ON USER2.USERID=ADMINAPP.USERID
-            LEFT JOIN REGULARUSER ON USER2.USERID=REGULARUSER.USERID`
+        FROM USER2 
+            LEFT JOIN USER1 ON USER2.HEIGHT = USER1.HEIGHT AND USER1.WEIGHTS = USER2.WEIGHTS
+            LEFT JOIN ADMINAPP ON USER2.USERID = ADMINAPP.USERID
+            LEFT JOIN REGULARUSER ON USER2.USERID = REGULARUSER.USERID`
         );
         return result;
     }).catch(() => {
@@ -295,26 +272,19 @@ async function joinAllUserTables() {
 async function filterUserTablesUsingAttrs(condition_attrs) {
     return await withOracleDB(async (connection) => {
 
-        //     const q = `
-        //     SELECT * 
-        //     FROM USER2 
-        //     LEFT JOIN USER1 ON USER2.HEIGHT=USER1.HEIGHT AND USER1.WEIGHTS=USER2.WEIGHTS 
-        //     LEFT JOIN ADMINAPP ON USER2.USERID=ADMINAPP.USERID 
-        //     LEFT JOIN REGULARUSER ON USER2.USERID=REGULARUSER.USERID 
-        //     WHERE AGE='35' OR AGE='28' AND GENDER='female'
-        // `.trim();
         var q = `
-        SELECT * 
-        FROM USER2 
-        LEFT JOIN USER1 ON USER2.HEIGHT=USER1.HEIGHT AND USER1.WEIGHTS=USER2.WEIGHTS 
-        LEFT JOIN ADMINAPP ON USER2.USERID=ADMINAPP.USERID 
-        LEFT JOIN REGULARUSER ON USER2.USERID=REGULARUSER.USERID
-    `.trim();
+        SELECT *
+            FROM USER2 
+        LEFT JOIN USER1 ON USER2.HEIGHT = USER1.HEIGHT AND USER1.WEIGHTS = USER2.WEIGHTS 
+        LEFT JOIN ADMINAPP ON USER2.USERID = ADMINAPP.USERID 
+        LEFT JOIN REGULARUSER ON USER2.USERID = REGULARUSER.USERID
+            `.trim();
 
         if (condition_attrs) {
-            q += ` WHERE ` + condition_attrs.trim();
+            q += ` WHERE` + condition_attrs.trim();
         }
 
+        console.log(q);
 
         const result = await connection.execute(q);
         return result;
@@ -324,39 +294,9 @@ async function filterUserTablesUsingAttrs(condition_attrs) {
     });
 }
 
-
-// Q: not sure if name=: can be anything or this is a syntax of SQl that we will not change
-// and doest not need to be a variable
-async function updateNameTable(tableName, oldName, newName) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `UPDATE ` + tableName + ` SET name=:newName where name=:oldName`,
-            [newName, oldName],
-            { autoCommit: true }
-        );
-
-        return result.rowsAffected && result.rowsAffected > 0;
-    }).catch(() => {
-        return false;
-    });
-}
-
-async function countTable(tableName) {
-    return await withOracleDB(async (connection) => {
-        const result = await connection.execute('SELECT Count(*) FROM ' + tableName);
-        return result.rows[0][0];
-    }).catch(() => {
-        return -1;
-    });
-}
-
 module.exports = {
     testOracleConnection,
     fetchTableFromDb,
-    initiateTable,
-    insertIntoTable,
-    updateNameTable,
-    countTable,
     // general functions
     readRowsWithValuesFromTable,
     deleteFromTable,
@@ -365,11 +305,10 @@ module.exports = {
     filterUserTablesUsingAttrs,
 
     // Proc Food: ==============================
-    updateDescription,
-    updateUnit,
+    updateProcessedFood,
+
     // ==============================
 
     // Insert user: ==================
-    insertIntoUser2Table,
     insertIntoRegularUserTable
 };
