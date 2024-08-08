@@ -206,6 +206,31 @@ async function updateProcessedFood(event) {
     }
 }
 
+// Count items for each brand (aggregration group by)
+async function fetchCountProcessedFood() {
+    const tableElement = document.getElementById('processedFoodTableCount');
+    const tableBody = tableElement.querySelector('tbody');
+
+    const response = await fetch('/count-processed-foods', {
+        method: 'GET'
+    });
+
+    const responseData = await response.json();
+    const processedFoodTableCount = responseData.data;
+
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+
+    processedFoodTableCount.forEach(brand => {
+        const row = tableBody.insertRow();
+        brand.forEach((field, index) => {
+            const cell = row.insertCell(index);
+            cell.textContent = field;
+        });
+    });
+}
+
 
 // ---------------- Regular User Part ------------------------
 

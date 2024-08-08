@@ -134,6 +134,17 @@ router.post("/update-processed-food", async (req, res) => {
     }
 });
 
+// Count
+router.get('/count-processed-foods', async (req, res) => {
+    try {
+        const tableContent = await appService.fetchPFCount();
+        res.json({ data: tableContent });
+    } catch (error) {
+        console.error('Error fetching processed food counts:', error);
+        res.status(500).json({ success: false });
+    }
+});
+
 // ----------------- Dealing with now instead of the regular user stuff. ------------------
 
 router.post("/insert-regular-user", async (req, res) => {

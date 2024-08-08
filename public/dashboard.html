@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>User Dashboard</title>
 </head>
+
 <body>
 
     <a href="index.html" onclick="resetLocalStorage()">Logout</a>
     <script>
-    function resetLocalStorage() {
-        localStorage.clear();
-        if (g_userID) {
-            g_userID = null;
+        function resetLocalStorage() {
+            localStorage.clear();
+            if (g_userID) {
+                g_userID = null;
+            }
         }
-    }
     </script>
 
     <!-- ===================================================================================== -->
@@ -20,14 +22,15 @@
     <script src="scripts.js"></script>
 
     <h1>Dashboard</h1>
-    <br><hr>
+    <br>
+    <hr>
     <!-- Element to display the message -->
     <p id="welcomeMsg"></p>
-    
+
     <!-- Atta  ==========================================================================================================-->
-<!-- =================================== Processed Food =======================================================================-->
-<!-- =================================== Processed Food =======================================================================-->
-<!-- =================================== Processed Food =======================================================================-->
+    <!-- =================================== Processed Food =======================================================================-->
+    <!-- =================================== Processed Food =======================================================================-->
+    <!-- =================================== Processed Food =======================================================================-->
 
     <h2>Update Processed Food</h2>
 
@@ -47,18 +50,22 @@
 
     <div id="updateSelectProcFoodMsg"></div>
 
-    <p> The user can update experience with processed foods they consume, making notes or describing their experiences <br> 
+    <p> The user can update experience with processed foods they consume, making notes or describing their experiences
+        <br>
         with the food. The user may also update the units for the processed food as well to use units they're most <br>
-        comfortable with for their progress. </p>
+        comfortable with for their progress.
+    </p>
 
     <br>
     <p><b>Note:</b> Ensure exact product name and brand is inputted, no additional characters.</p>
 
     <form id="updateProceedsFood">
-        Product Name (required): <input type="text" id="productNameProcFood" placeholder="Enter exact product name" required> <br><br>
-        
-        Brand (required): <input type="text" id="brandNameProcFood" placeholder="Enter exact brand name" required> <br><br>
-        
+        Product Name (required): <input type="text" id="productNameProcFood" placeholder="Enter exact product name"
+            required> <br><br>
+
+        Brand (required): <input type="text" id="brandNameProcFood" placeholder="Enter exact brand name" required>
+        <br><br>
+
         <label for="pfUnit">New Unit:</label>
         <input type="text" id="pfUnit" name="pfUnit">
         <br>
@@ -70,5 +77,31 @@
 
     <div id="updateProcessedFoodResultMsg"></div>
 
-    </body>
+    <h2>Count Number of Products by Brand</h2>
+
+    <p> User can count number of products by brand. Click the Count! button without typing in the box to display the
+        <br>
+        count of all brands, or enter the brand's name before clicking the button to display only that brand.
+    </p>
+    <br>
+
+    <table id="processedFoodTableCount" border="1">
+        <thead>
+            <tr>
+                <th>Brand</th>
+                <th>Count</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <div id="countProcessedFoodBrand"></div>
+
+    <form id="countBrandFilterName">
+        Enter name of brand: <input type="text" id="brandNameCount" placeholder="Name of brand...">
+    </form>
+    <button onclick="fetchCountProcessedFood()">Count!</button>
+</body>
+
 </html>
