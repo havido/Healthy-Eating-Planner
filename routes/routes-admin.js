@@ -20,6 +20,9 @@ router.post('/admin-get-all-users', async (req, res) => {
 	const allUsersJsonData = allUsersResult.rows.map(row => {
 		let rowObject = {};
 		allUsersResultAttrs.forEach((col, index) => {
+			if (index == 6 || index == 7 || index == 9 || index == 11) {
+				return
+			}
 			rowObject[col] = row[index];
 		});
 		return rowObject;
