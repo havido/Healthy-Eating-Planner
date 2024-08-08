@@ -135,13 +135,16 @@ router.post("/update-processed-food", async (req, res) => {
 });
 
 // Count
-router.get('/count-processed-foods', async (req, res) => {
-    try {
-        const tableContent = await appService.fetchPFCount();
-        res.json({ data: tableContent });
-    } catch (error) {
-        console.error('Error fetching processed food counts:', error);
+router.post('/count-processed-foods', async (req, res) => {
+    const { brand } = req.body;
+    const tableContent = await appService.fetchPFCount(brand);
+
+    if (tableContent) {
+        res.json({ success: true, data: tableContent });
+        console.log('AC1');
+    } else {
         res.status(500).json({ success: false });
+        console.log('AC0');
     }
 });
 
