@@ -334,11 +334,14 @@ async function getProjection(table, attributes) {
 // Count processed food brands (aggregration group by)
 async function fetchPFCount(brand) {
     var query = 'SELECT BRAND, COUNT(*) FROM PROCESSEDFOOD GROUP BY BRAND';
+    var binds = {};
+
     if (brand) {
-        query += ' HAVING BRAND LIKE \'%' + brand + '%\'';
+        query += ' HAVING BRAND LIKE :brand';
+        binds.brand = '%' + brand + '%';
     }
     return await withOracleDB(async (connection) => {
-        const result = await connection.execute(query);
+        const result = await connection.execute(query, binds);
         return result.rows;
     }).catch(() => {
         return [];
