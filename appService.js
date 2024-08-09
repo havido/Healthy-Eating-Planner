@@ -61,7 +61,6 @@ async function updateProcessedFood(productName, brandName, newUnit, newDescripti
             arr.push(brandName)
 
             q_ = q_.trim()
-            console.log(q_)
 
             const result = await connection.execute(
                 q_,
@@ -207,9 +206,6 @@ async function fetchTableFromDb(tableName) {
     });
 }
 
-
-
-
 async function readRowsWithValuesFromTable(tableName, selected_attr, condition_dict) {
     return await withOracleDB(async (connection) => {
 
@@ -284,7 +280,6 @@ async function filterUserTablesUsingAttrs(condition_attrs) {
             q += ` WHERE ` + condition_attrs.trim();
         }
 
-        console.log(q);
 
         const result = await connection.execute(q);
         return result;
@@ -304,9 +299,6 @@ async function fetchTablesFromDB() {
             console.log('Error fetching tables:', error);
             return ['Error1'];
         }
-        // SELECT table_name
-        // FROM information_schema.tables
-        // WHERE table_schema = 'public'
         const z = result.rows.flatMap(row => row);
         return z
     }).catch(() => {
@@ -341,21 +333,75 @@ async function getProjection(table, attributes) {
 
 // Count processed food brands (aggregration group by)
 async function fetchPFCount(brand) {
-    console.log(brand);
     var query = 'SELECT BRAND, COUNT(*) FROM PROCESSEDFOOD GROUP BY BRAND';
     if (brand) {
         query += ' HAVING BRAND LIKE \'%' + brand + '%\'';
     }
-    console.log(query);
     return await withOracleDB(async (connection) => {
         const result = await connection.execute(query);
-        console.log(result);
         return result.rows;
     }).catch(() => {
         return [];
     });
 }
 
+async function getAllLogDatetimes() {
+    return await withOracleDB(async (connection) => {
+        const result = await connection.execute(
+            'SELECT DISTINCT TO_CHAR(TIMESTAMPED, \'YYYY-MM-DD\') FROM ACTIVITYLOGREPORTING ORDER BY TO_CHAR(TIMESTAMPED, \'YYYY-MM-DD\')'
+        );
+        console.log("getAllLogDatetimes = ", result)
+        return result.rows;
+
+    }).catch(() => {
+        return [];
+    });
+}
+
+async function getAllUsersWhoLogged(logDates) {
+    return await withOracleDB(async (connection) => {
+
+        const datesArr = '(' + logDates.map(date => '\'' + date + '\'').join(', ') + ')';
+        //console.log(datesArr);
+        const q = `
+        SELECT DISTINCT *
+        FROM USER2 U2
+        WHERE EXISTS (SELECT *
+                      FROM ACTIVITYLOGREPORTING AL
+                      WHERE AL.USERID = U2.USERID AND
+                      TO_CHAR(AL.TIMESTAMPED, 'YYYY-MM-DD') IN ${datesArr}
+                      )
+        `.trim();
+
+        // const q = `
+        //     SELECT DISTINCT *
+        //     FROM ACTIVITYLOGREPORTING t1
+        //     WHERE NOT EXISTS (
+        //         SELECT 1
+        //         FROM (
+        //             SELECT TO_CHAR(TIMESTAMPED, 'YY-MM-DD') AS TIMESTAMPED
+        //             FROM ACTIVITYLOGREPORTING
+        //             WHERE TO_CHAR(TIMESTAMPED, 'YY-MM-DD') IN ${datesArr}
+        //         ) ts
+        //         WHERE NOT EXISTS (
+        //             SELECT 1
+        //             FROM ACTIVITYLOGREPORTING t2
+        //             WHERE t2.USERID = t1.USERID
+        //             AND TO_CHAR(t2.TIMESTAMPED, 'YY-MM-DD') = ts.TIMESTAMPED
+        //         )
+        //     )
+        // `.trim();
+
+
+        console.log(q);
+
+        const result = await connection.execute(q);
+        console.log(result);
+        return result.rows;
+    }).catch(() => {
+        return [];
+    });
+}
 
 module.exports = {
     testOracleConnection,
@@ -371,6 +417,8 @@ module.exports = {
     updateProcessedFood,
 
     // ==============================
+    getAllLogDatetimes,
+    getAllUsersWhoLogged,
 
     // Insert user: ==================
     insertIntoRegularUserTable,

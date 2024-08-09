@@ -81,6 +81,42 @@ router.post('/admin-filter-users', async (req, res) => {
 	res.json({ success: true, data: filterResultJsonData });
 });
 
+router.post('/admin-get-all-log-datetimes', async (req, res) => {
+
+	if (!req.body) {
+		res.status(500).json({ success: false });
+	}
+	// fail if body does not have userID key and value
+	if (!req.body.hasOwnProperty('USERID') || !req.body.USERID || Object.keys(req.body).length > 2) {
+		res.status(500).json({ success: false });
+	}
+
+	const allLogDates = await appService.getAllLogDatetimes();
+	if (!allLogDates) {
+		res.status(500).json({ success: false });
+		return;
+	}
+	res.json({ success: true, data: allLogDates });
+});
+
+router.post('/admin-get-all-users-who-logged', async (req, res) => {
+
+	if (!req.body) {
+		res.status(500).json({ success: false });
+	}
+	// fail if body does not have userID key and value
+	if (!req.body.hasOwnProperty('USERID') || !req.body.USERID || Object.keys(req.body).length > 2) {
+		res.status(500).json({ success: false });
+	}
+	const { DATES } = req.body
+	const allUsersWhoLogged = await appService.getAllUsersWhoLogged(DATES);
+	if (!allUsersWhoLogged) {
+		res.status(500).json({ success: false });
+		return;
+	}
+	res.json({ success: true, data: allUsersWhoLogged });
+});
+
 
 
 module.exports = router;

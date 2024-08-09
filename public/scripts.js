@@ -47,7 +47,6 @@ async function fetchAllDBTables() {
 
     const responseData = await response.json();
     const tables = responseData.data;
-    console.log(tables);
     tableSelect.innerHTML = '';
 
     tables.forEach(table => {
@@ -206,7 +205,7 @@ async function updateProcessedFood(event) {
     }
 }
 
-// Count items for each brand (aggregration group by)
+// Count items for each brand (aggregation group by)
 async function fetchCountProcessedFood() {
     const tableElement = document.getElementById('processedFoodTableCount');
     const tableBody = tableElement.querySelector('tbody');
@@ -516,6 +515,115 @@ async function filterRows() {
 }
 
 
+// ---------------- Division -------------------------------
+async function generateLogDates() {
+
+    const response = await fetch('/admin-get-all-log-datetimes', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            USERID: g_userID,
+        })
+
+
+    });
+    const responseData = await response.json();
+    const dates = responseData.data;
+    const logDatesDiv = document.getElementById('logDatesCheckboxes');
+    logDatesDiv.innerHTML = '';
+
+    dates.forEach(date_ => {
+        const label = document.createElement('label');
+        label.textContent = date_;
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.name = 'logDates';
+        checkbox.classList.add('logdate');
+
+        checkbox.value = date_;
+
+        logDatesDiv.appendChild(checkbox);
+        logDatesDiv.appendChild(label);
+        logDatesDiv.appendChild(document.createElement('br'));
+    });
+
+    // We don't need to generate the table here because we only have the dates here
+    // and nothing is selected yet
+    // generateTableForUsersWhoLogged()
+}
+
+async function generateTableForUsersWhoLogged() {
+
+    const tableHeaders = document.getElementById('usersWhoLoggedOnTheseDatesHeaders');
+    const tableBody = document.getElementById('usersWhoLoggedOnTheseDatesBody');
+    const logDates = Array.from(document.querySelectorAll('input[name="logDates"]:checked'))
+        .map(cb => cb.value);
+    console.log(logDates);
+    if (logDates.length === 0) {
+        if (tableHeaders) {
+            tableHeaders.innerHTML = '';
+        }
+        if (tableBody) {
+            tableBody.innerHTML = '';
+        }
+        return;
+    }
+    const response = await fetch('/admin-get-all-users-who-logged', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            USERID: g_userID,
+            DATES: logDates
+        })
+    });
+
+    const responseData = await response.json();
+    const allUsersData = responseData.data;
+
+
+    if (tableHeaders) {
+        tableHeaders.innerHTML = '';
+    }
+    if (tableBody) {
+        tableBody.innerHTML = '';
+    }
+    // Display the table headers
+    const headerRow = tableHeaders.insertRow();
+    if (allUsersData.length === 0) {
+        alert('The filtering did not match anything in the database!');
+        return;
+    }
+    const keys = Object.keys(allUsersData[0]);
+    keys.forEach(key => {
+        if (key.includes('_')) {
+            return;
+        }
+        const cell = headerRow.insertCell();
+        cell.textContent = key.toUpperCase();
+    });
+
+    // Display the table rows
+    allUsersData.forEach(user => {
+        const row = tableBody.insertRow();
+        keys.forEach(key => {
+            if (key.includes('_')) {
+                return;
+            }
+            const cell = row.insertCell();
+            const value = user[key];
+            if (value === null) {
+                cell.textContent = 'N/A'; // TODO might want to make N/A and empty string or ---
+                return;
+            }
+            cell.textContent = user[key];
+        });
+    });
+}
+
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
 // Add or remove event listeners based on the desired functionalities.
@@ -542,6 +650,7 @@ window.onload = function () {
 
     if (currentPath === '/dashboard_admin.html') {
         fetchAllDBTables();
+        generateLogDates();
 
         // Filter form
         document.getElementById('resetFilter').addEventListener('click', function (event) {
@@ -571,5 +680,13 @@ window.onload = function () {
         });
 
         generateUsersTable();
+
+        // Division on log dates
+        let logDatesCheckboxesDiv = document.getElementById('logDatesCheckboxes');
+        logDatesCheckboxesDiv.addEventListener('change', function (event) {
+            if (event.target && event.target.type === 'checkbox' && event.target.classList.contains('logdate')) {
+                generateTableForUsersWhoLogged();
+            }
+        });
     }
 };
