@@ -1,82 +1,85 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>AdminViewDashboard</title>
-</head>
-<body>
-
+  </head>
+  <body>
     <a href="index.html" onclick="resetLocalStorage()">Logout</a>
     <script>
-    function resetLocalStorage() {
+      function resetLocalStorage() {
         localStorage.clear();
         if (g_userID) {
-            g_userID = null;
+          g_userID = null;
         }
-    }
+      }
     </script>
-    
+
     <!-- ===================================================================================== -->
     <!-- External JavaScript file that contains the functionality/logic for the operations above. -->
     <script src="scripts.js"></script>
 
     <h1>Admin Dashboard</h1>
-     <!-- Element to display the message -->
-     <p id="welcomeMsg"></p>
+    <!-- Element to display the message -->
+    <p id="welcomeMsg"></p>
 
-    <br><hr><br> 
+    <br />
+    <hr />
+    <br />
 
     <!-- Main table -->
-     <h2>All Users</h2>
+    <h2>All Users</h2>
 
-     <table id="usersTable" border="1">
-         <thead id="userTableHeaders">
-             <tr >
-             <!-- Header will be populated by JavaScript -->
-             </tr>
-         </thead>
-         <tbody id="userTableBody">
-             <!-- Rows will be populated by JavaScript -->
-         </tbody>
-     </table> 
+    <table id="usersTable" border="1">
+      <thead id="userTableHeaders">
+        <tr>
+          <!-- Header will be populated by JavaScript -->
+        </tr>
+      </thead>
+      <tbody id="userTableBody">
+        <!-- Rows will be populated by JavaScript -->
+      </tbody>
+    </table>
 
     <!-- filter rows -->
-    <br><hr> 
+    <br />
+    <hr />
     <h2>Filter Rows</h2>
     <form id="filterForm">
-        <div id="conditions">
-            <div class="condition">
-                <label for="attribute">Attribute:</label>
-                <select name="attribute" class="attribute">
-                    <option value="USERID">USERID</option>
-                    <option value="USERNAME">USERNAME</option>
-                    <option value="AGE">AGE</option>
-                    <option value="GENDER">GENDER</option>
-                    <option value="HEIGHT">HEIGHT</option>
-                    <option value="WEIGHTS">WEIGHTS</option>
-                    <option value="BMI">BMI</option>
-                    <option value="ADMINLEVEL">ADMINLEVEL</option>
-                    <option value="SUBSCRIPTIONTYPE">SUBSCRIPTIONTYPE</option>
-                    <!-- Add more attributes as needed -->
-                </select>
-                =
-                <input type="text" name="value" class="value" placeholder="Value">
-                <select name="logical" class="logical">
-                    <option value="AND">AND</option>
-                    <option value="OR">OR</option>
-                </select>
-            </div>
+      <div id="conditions">
+        <div class="condition">
+          <label for="attribute">Attribute:</label>
+          <select name="attribute" class="attribute">
+            <option value="USERID">USERID</option>
+            <option value="USERNAME">USERNAME</option>
+            <option value="AGE">AGE</option>
+            <option value="GENDER">GENDER</option>
+            <option value="HEIGHT">HEIGHT</option>
+            <option value="WEIGHTS">WEIGHTS</option>
+            <option value="BMI">BMI</option>
+            <option value="ADMINLEVEL">ADMINLEVEL</option>
+            <option value="SUBSCRIPTIONTYPE">SUBSCRIPTIONTYPE</option>
+            <!-- Add more attributes as needed -->
+          </select>
+          =
+          <input type="text" name="value" class="value" placeholder="Value" />
+          <select name="logical" class="logical">
+            <option value="AND">AND</option>
+            <option value="OR">OR</option>
+          </select>
         </div>
-        <button type="button" id="addCondition">Add Condition</button>
-        <button type="submit">Filter</button>
-        
+      </div>
+      <button type="button" id="addCondition">Add Condition</button>
+      <button type="submit">Filter</button>
     </form>
     <button type="submit" id="resetFilter">Reset Filter</button>
 
     <script>
-        document.getElementById('addCondition').addEventListener('click', function() {
-            const conditionDiv = document.createElement('div');
-            conditionDiv.className = 'condition';
-            conditionDiv.innerHTML = `
+      document
+        .getElementById("addCondition")
+        .addEventListener("click", function () {
+          const conditionDiv = document.createElement("div");
+          conditionDiv.className = "condition";
+          conditionDiv.innerHTML = `
                 <label for="attribute">Attribute:</label>
                 <select name="attribute" class="attribute">
                     <option value="USERID">USERID</option>
@@ -97,98 +100,132 @@
                     <option value="OR">OR</option>
                 </select>
             `;
-            document.getElementById('conditions').appendChild(conditionDiv);
+          document.getElementById("conditions").appendChild(conditionDiv);
         });
 
-        document.getElementById('filterForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting
-            filterRows(); // Call the filter function
+      document
+        .getElementById("filterForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent the form from submitting
+          filterRows(); // Call the filter function
         });
     </script>
 
-
-     <!-- Delete user -->
-     <br><hr> 
+    <!-- Delete user -->
+    <br />
+    <hr />
     <h2>Delete User</h2>
     <form id="deleteUserForm">
-        <label for="deleteUser">User ID:</label>
-        <input type="text" id="deleteUserID" name="deleteUser">
-        <button type="submit">Delete User</button>
+      <label for="deleteUser">User ID:</label>
+      <input type="text" id="deleteUserID" name="deleteUser" />
+      <button type="submit">Delete User</button>
     </form>
 
-
     <!-- Atta  ==========================================================================================================-->
-<!-- =================================== Insert User  =======================================================================-->
-<!-- =================================== Insert User  =======================================================================-->
-<!-- =================================== Insert User  =======================================================================-->
+    <!-- =================================== Insert User  =======================================================================-->
+    <!-- =================================== Insert User  =======================================================================-->
+    <!-- =================================== Insert User  =======================================================================-->
 
-    <br><hr>
+    <br />
+    <hr />
 
     <h2>Admin: Insert Regular Users</h2>
 
     <form id="insertRegularUserForm">
-
-        User ID (required): <input type="text" id="insertRegularUserID" placeholder="Enter User ID" required> <br><br>
-        Username (required): <input type="text" id="insertUsername" placeholder="Enter Username" required> <br><br>
-        Subscription Type (required): <input type="text" id="subscriptionType" placeholder="Enter Subscription Type" required> <br><br>
-        Age: <input type="number" id="age" placeholder="Enter Age"> <br><br>
-        Gender: <input type="text" id="gender" placeholder="Enter Gender"> <br><br>
-        Height: <input type="text" id="height" placeholder="Enter Height"> <br><br>
-        Weight: <input type="text" id="weight" placeholder="Enter Weight"> <br><br>
-        <button type="submit">Insert Regular User</button>
+      User ID (required):
+      <input
+        type="text"
+        id="insertRegularUserID"
+        placeholder="Enter User ID"
+        required
+      />
+      <br /><br />
+      Username (required):
+      <input
+        type="text"
+        id="insertUsername"
+        placeholder="Enter Username"
+        required
+      />
+      <br /><br />
+      Subscription Type (required):
+      <input
+        type="text"
+        id="subscriptionType"
+        placeholder="Enter Subscription Type"
+        required
+      />
+      <br /><br />
+      Age: <input type="number" id="age" placeholder="Enter Age" /> <br /><br />
+      Gender: <input type="text" id="gender" placeholder="Enter Gender" />
+      <br /><br />
+      Height: <input type="text" id="height" placeholder="Enter Height" />
+      <br /><br />
+      Weight: <input type="text" id="weight" placeholder="Enter Weight" />
+      <br /><br />
+      <button type="submit">Insert Regular User</button>
     </form>
     <div id="insertUser2NewPart"></div>
     <div id="insertRegularUserNewPart"></div>
-    <div id="regularUserTableInsertPresent"></div> 
+    <div id="regularUserTableInsertPresent"></div>
     <div id="user2TableDisplayInsert"></div>
 
-       <!-- Projection -->
-       <br><hr>
-       <h2>Projection</h2>
-       <table id="projection" border="1">
-           <!-- results -->
-       </table>
-       <div>
-           <label for="tableSelect">Choose a table:</label>
-           <select id="tableSelect" onchange="updateAttributes()">
-               <!-- <select id="tableSelect"> -->
-               <!-- <option value="INGREDIENT">INGREDIENT</option> -->
-               <!-- dummy option -->
-           </select>
-       </div>
-       <div>
-           <label>Choose attributes:</label>
-           <div id="attributesCheckboxes">
-               <!-- something -->
-           </div>
-       </div>
-       
-       <button onclick="fetchProjection()">View Data</button>
-   
-       <div id="resetResultMsg"></div>
-   
-       <!-- End Projection -->
-   
-       <br>
-       <hr><br> <!-- ========================================================================= -->
+    <!-- Projection -->
+    <br />
+    <hr />
+    <h2>Projection</h2>
+    <table id="projection" border="1">
+      <!-- results -->
+    </table>
+    <div>
+      <label for="tableSelect">Choose a table:</label>
+      <select id="tableSelect" onchange="updateAttributes()">
+        <!-- <select id="tableSelect"> -->
+        <!-- <option value="INGREDIENT">INGREDIENT</option> -->
+        <!-- dummy option -->
+      </select>
+    </div>
+    <div>
+      <label>Choose attributes:</label>
+      <div id="attributesCheckboxes">
+        <!-- something -->
+      </div>
+    </div>
 
-       <div>
-        <label>Choose Dates:</label>
-        <div id="logDatesCheckboxes">
-            <!-- dates-->
-        </div>
-        <label>List of Users who logged activities on these dates:</label>
-        <table id="usersWhoLoggedOnTheseDates" border="1">
-            <thead id="usersWhoLoggedOnTheseDatesHeaders">
-                <tr >
-                <!-- Header will be populated by JavaScript -->
-                </tr>
-            </thead>
-            <tbody id="usersWhoLoggedOnTheseDatesBody">
-                <!-- Rows will be populated by JavaScript -->
-            </tbody>
-        </table>
-     </div>
+    <button onclick="fetchProjection()">View Data</button>
 
-    </body>
+    <div id="resetResultMsg"></div>
+
+    <!-- End Projection -->
+
+    <br />
+    <hr />
+    <br />
+    <!-- ========================================================================= -->
+    <br />
+    <hr />
+    <h2>Division</h2>
+    <div>
+      <label>List of Users who logged activities on these dates:</label>
+      <table id="usersWhoLoggedOnTheseDates" border="1">
+        <thead id="usersWhoLoggedOnTheseDatesHeaders">
+          <tr>
+            <!-- Header will be populated by JavaScript -->
+          </tr>
+        </thead>
+        <tbody id="usersWhoLoggedOnTheseDatesBody">
+          <!-- Rows will be populated by JavaScript -->
+        </tbody>
+      </table>
+      <br />
+      <label>Choose Dates:</label>
+      <div id="logDatesCheckboxes">
+        <!-- dates-->
+      </div>
+      <br />
+      <br />
+      <br />
+      <br />
+    </div>
+  </body>
 </html>

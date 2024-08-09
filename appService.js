@@ -204,6 +204,7 @@ async function fetchTableFromDb(tableName) {
     }).catch(() => {
         return [];
     });
+}
 
 async function readRowsWithValuesFromTable(tableName, selected_attr, condition_dict) {
     return await withOracleDB(async (connection) => {

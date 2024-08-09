@@ -555,10 +555,19 @@ async function generateLogDates() {
 }
 
 async function generateTableForUsersWhoLogged() {
+
+    const tableHeaders = document.getElementById('usersWhoLoggedOnTheseDatesHeaders');
+    const tableBody = document.getElementById('usersWhoLoggedOnTheseDatesBody');
     const logDates = Array.from(document.querySelectorAll('input[name="logDates"]:checked'))
         .map(cb => cb.value);
     console.log(logDates);
     if (logDates.length === 0) {
+        if (tableHeaders) {
+            tableHeaders.innerHTML = '';
+        }
+        if (tableBody) {
+            tableBody.innerHTML = '';
+        }
         return;
     }
     const response = await fetch('/admin-get-all-users-who-logged', {
@@ -575,8 +584,7 @@ async function generateTableForUsersWhoLogged() {
     const responseData = await response.json();
     const allUsersData = responseData.data;
 
-    const tableHeaders = document.getElementById('usersWhoLoggedOnTheseDatesHeaders');
-    const tableBody = document.getElementById('usersWhoLoggedOnTheseDatesBody');
+
     if (tableHeaders) {
         tableHeaders.innerHTML = '';
     }
