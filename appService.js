@@ -372,10 +372,31 @@ async function getAllUsersWhoLogged(logDates) {
                       TO_CHAR(AL.TIMESTAMPED, 'YYYY-MM-DD') IN ${datesArr}
                       )
         `.trim();
-        //console.log(q);
+
+        // const q = `
+        //     SELECT DISTINCT *
+        //     FROM ACTIVITYLOGREPORTING t1
+        //     WHERE NOT EXISTS (
+        //         SELECT 1
+        //         FROM (
+        //             SELECT TO_CHAR(TIMESTAMPED, 'YY-MM-DD') AS TIMESTAMPED
+        //             FROM ACTIVITYLOGREPORTING
+        //             WHERE TO_CHAR(TIMESTAMPED, 'YY-MM-DD') IN ${datesArr}
+        //         ) ts
+        //         WHERE NOT EXISTS (
+        //             SELECT 1
+        //             FROM ACTIVITYLOGREPORTING t2
+        //             WHERE t2.USERID = t1.USERID
+        //             AND TO_CHAR(t2.TIMESTAMPED, 'YY-MM-DD') = ts.TIMESTAMPED
+        //         )
+        //     )
+        // `.trim();
+
+
+        console.log(q);
 
         const result = await connection.execute(q);
-        //console.log(result);
+        console.log(result);
         return result.rows;
     }).catch(() => {
         return [];
